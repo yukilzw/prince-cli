@@ -1,0 +1,37 @@
+{
+    "name": "prince-cli",
+    "version": "0.1.3",
+    "description": "automatic tool for web development.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yukilzw/prince.git"
+    },
+    "keywords": [
+        "cli",
+        "spa",
+        "prince"
+    ],
+    "author": "yukilzw",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/yukilzw/prince/issues"
+    },
+    "homepage": "https://github.com/yukilzw/prince#readme",
+    "dependencies": {
+        "commander": "^2.16.0",
+        "path": "^0.12.7",
+        "shelljs": "^0.8.2"
+    },
+    "devDependencies": {
+        "babel-eslint": "^10.0.1",
+        "eslint": "^5.9.0",
+        "eslint-plugin-react": "^7.11.1"
+    },
+    "bin": {
+        "prince": "./index.js"
+    }
+}

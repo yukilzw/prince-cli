@@ -1,0 +1,163 @@
+/*default style*/
+body, html, div, blockquote, img, label, p, h1, h2, h3, h4, h5, h6, pre, ul, ol,li, dl, dt, dd, form, a, fieldset, input, th, td,textarea {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    font-size: 12px;
+    font-family: Arial,Microsoft Yahei;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+ul, ol, li {
+    list-style: none;
+    color: #333;
+}
+
+b, i {
+    font-style: normal;
+    font-weight: normal;
+}
+
+body { 
+    overflow-x: hidden;
+}
+
+html, body{
+    height: 100%;
+}
+
+.clearfix:after{
+    content: '.';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+a, button {
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+/*body*/
+.body-wrap {
+    height: 100%;
+    overflow: auto;
+    transform: translateZ(0);
+    background-color: #fff;
+}
+
+/*header*/
+header {
+    display: block;
+    padding: 0 .05rem;
+    line-height: .7rem;
+    font-size: .3rem;
+    border-bottom: 1px solid #999; 
+    text-align: center;
+
+    &::after {
+        content: "";
+        display: block;
+        float: left;
+        height: .7rem;
+        width: .7rem;
+        background: url('~@common/assests/icon.png')no-repeat center;
+        background-size: auto 50%;
+        transform: rotateY(180deg);
+    }
+}
+
+/*route*/
+.route-translate-box {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+.route-shade {
+    display: none;
+    background-color: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    transform: translateZ(0);
+}
+
+/*iscroll*/
+.scroll-wrapper {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    bottom: 0;
+    overflow: hidden;
+}
+
+/*ReactCSSTransitionGroup动画帧*/
+/*router-go*/
+.go-enter {
+    z-index: 1;
+    transform: translate3d(100%,0,0);
+}
+
+.go-enter.go-enter-active {
+    transform: translate3d(0,0,0);
+    transition: .3s;
+}
+
+.go-leave {
+    transform: translate3d(0,0,0);
+}
+
+.go-leave .route-shade {
+    display: block;
+    opacity: .05;
+}
+
+.go-leave.go-leave-active {
+    transform: translate3d(-50%,0,0);
+    transition: .3s;
+}
+
+.go-leave.go-leave-active .route-shade{
+    display: block;
+    opacity: .5;
+    transition: .3s;
+}
+
+/*router-back*/
+.back-enter {
+    z-index: 1;
+    transform: translate3d(-100%,0,0);
+}
+
+.back-enter.back-enter-active {
+    transform: translate3d(0,0,0);
+    transition: .3s;
+}
+
+.back-leave {
+    transform: translate3d(0,0,0);
+}
+
+.back-leave .route-shade {
+    display: block;
+    opacity: .05;
+}
+
+.back-leave.back-leave-active {
+    transform: translate3d(50%,0,0);
+    transition: .3s;
+}
+
+.back-leave.back-leave-active .route-shade {
+    display: block;
+    opacity: .5;
+    transition: .3s;
+}
