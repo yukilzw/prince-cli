@@ -3,23 +3,23 @@ import fetchJsonp from 'fetch-jsonp';
 import { combineReducers } from 'redux';
 
 class CommonService {
-    store                  // 全局store对象
-    router                 // 全局路由对象
-    currentLoation         // 当前页面URL缓存
-    // webSocket方法对象（不需要可删除）
+    store                  // global store
+    router                 // global router
+    currentLoation         // current url storage
+    // webSocket object (if you don't need webSocket,you can delete 'ws' property)
     ws = {
         /**
-        * @description webSocket订阅
-        * @param {string} sign 协议名
-        * @param {function} callBack 订阅回调函数
+        * @description webSocket subscribe
+        * @param {string} sign name
+        * @param {function} callBack function
         */
         subscribe(sign, callBack) {
             callBack && document.addEventListener(`onsocketmsg${sign}`, e => callBack(e.detail), false);
         },
 
         /**
-        * @description webSocket发送消息
-        * @param {string|object} data 推送的数据
+        * @description webSocket send message
+        * @param {string|object} data send data
         */
         send(data) {
             this.sendMsgList.push(data);
@@ -27,28 +27,28 @@ class CommonService {
 
         sendMsgList: []
     };
-    // 全局配置HOST，字符串为上线打包地址，空为采用相对地址
+    // global HOST: according to the file 'script/config.js' to init enviroment
     host = {
         req: REQUEST_HOST,    // http host
         socket: SOCKET_HOST   // webSocket host
     };
-    // applyMiddleware:本地缓存reducer中间件
+    // applyMiddleware: localStorage reducer middleware
     reducersStorage = store => next => action => {
         next(action);
         localStorage.setItem('princeReducersData', JSON.stringify(store.getState()));
     };
 
-    // 初始化服务
+
     constructor() {
         this.setPixel();
         this.listenTurn();
         this.connectWebSocket();
     }
-    // 设置rem
+    // set app rem
     setPixel() {
         document.documentElement.style.fontSize = (document.documentElement.clientWidth / 750) * 100 + 'px';
     }
-    // 监听页面跳转方向，设置对应的进出切换动画
+    // subscribe page turning direction, set turning animation reducer for router
     listenTurn() {
         window.addEventListener('popstate', (e) => {
             if (this.pageTurning) {
@@ -68,7 +68,7 @@ class CommonService {
             this.currentLoation = window.location.href;
         }, false);
     }
-    // 连接webSocket服务，订阅、推送消息（不需要可删除）
+    // connect webSocket server: subscribe, push. (if you don't need webSocket,you can delete 'connectWebSocket' method)
     connectWebSocket() {
         const that = this;
         const webSocket = new WebSocket(this.host.socket);
@@ -104,7 +104,7 @@ class CommonService {
             webSocket.close();
         });
     }
-    // 手势翻页
+    // signal turning
     swipePage(e) {
         if (e.direction === 'Left') {
             this.pageJump('go', 1);
@@ -113,10 +113,10 @@ class CommonService {
         }
     }
 
-    /* ------------------以下为提供外部调用的服务------------------ */
+    /* ------------------Nexts are exposed services function for page modules------------------ */
 
     /**
-    * @description 跳转页面调用
+    * @description page jump
     */
     pageBack(method, option) {
         if (this.pageTurning) {
@@ -139,8 +139,8 @@ class CommonService {
         history[method](option);
     }
     /**
-    * @description json转query
-    * @param {object} obj json对象
+    * @description json to query
+    * @param {object} obj json object
     */
     param(obj) {
         const arr = [];
@@ -152,12 +152,13 @@ class CommonService {
         return arr.join('&').replace(/\+/g, '%2B').replace(/"/g, '%22').replace(/'/g, '%27').replace(/\//g, '%2F');
     }
     /**
-    * @description query转json
-    * @param {string} obj query字符串
+    * @description query to json
+    * @param {string} obj query string
     */
     parse(string) {
         const obj = new Object();
         const arr = string.split('#');
+
         let strs;
 
         for (let j = 0; j < arr.length; j++) {
@@ -177,10 +178,10 @@ class CommonService {
         return obj;
     }
     /**
-    * @description POST请求
-    * @param {string} url 请求rest地址
-    * @param {obj} data 请求数据
-    * @param {obj} headers 请求头
+    * @description POST request
+    * @param {string} url request url
+    * @param {obj} data request data(optional)
+    * @param {obj} option request option(optional)
     */
     post(url, data = {}, option = {}) {
         const config = {
@@ -201,10 +202,10 @@ class CommonService {
         return fetch(reqPath, config).then(res => res.json());
     }
     /**
-    * @description GET请求
-    * @param {string} url 请求rest地址
-    * @param {obj} data 请求数据
-    * @param {obj} headers 请求头
+    * @description GET request
+    * @param {string} url request url
+    * @param {obj} data request data(optional)
+    * @param {obj} option request option(optional)
     */
     get(url, data = {}, option = {}) {
         const config = {
@@ -223,10 +224,10 @@ class CommonService {
         return fetch(`${reqPath}?${data ? this.param(data) : ''}`, config).then(res => res.json());
     }
     /**
-    * @description JSONP请求
-    * @param {string} url 请求rest地址
-    * @param {obj} data 请求数据
-    * @param {string} jsonpCallbackFunction JSONP回调函数名
+    * @description JSONP request
+    * @param {string} url request url
+    * @param {obj} data request data(optional)
+    * @param {string} jsonpCallbackFunction JSONP callBack function name
     */
     jsonp(url, data = {}, option = {}) {
         let cbName = 'PrinceJsonpCallBack';
@@ -250,8 +251,8 @@ class CommonService {
         }
     }
     /**
-    * @description 动态注入reducer
-    * @param {object} reducers 需要注册的reducer对象
+    * @description dynamic injection reducer
+    * @param {object} reducers need to inject reducer object
     */
     registReducer(reducers) {
         this.store.replaceReducer(combineReducers(Object.assign(this.store.asyncReducers, reducers)));

@@ -6,6 +6,7 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const { REMOTE, LOCAL } = require('./config');
 
 const extraPlugins = [];
+
 let isDebug = false;
 
 if (process.env.DEBUG === '1') {

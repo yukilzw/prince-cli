@@ -62,7 +62,7 @@ const copy = (src, dst) => {
                             });
                         });
                     });
-                } else if (st.isDirectory()) {
+                } else if (st.isDirectory() && path !== 'node_modules') {
                     addPage(_src, _dst);
                 }
             });

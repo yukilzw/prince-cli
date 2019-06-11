@@ -17,11 +17,12 @@ const { REMOTE, LOCAL } = require('./config');
 const app = new Koa();
 const router = new Router();
 
-// 创建动态路由文件
+// create dynamic router for each page
 const creatRouterFile = () => {
     const moduleNameList = Object.keys(routeConfig);
     const config = moduleNameList.map(moduleName => {
         const { path: location, src } = routeConfig[moduleName];
+
         let code = `{ path: '${location}', modules:` +
             `() => import(/* webpackChunkName: '${moduleName}' */ '${path.join(__dirname, '../src/route', src).replace(/\\/g, '/')}')` +
         ` }`;
@@ -33,7 +34,7 @@ const creatRouterFile = () => {
     fs.writeFileSync(path.join(__dirname, './routeImage.js'), temp);
 };
 
-// 清空目录
+// clean path
 const deleteFolderDist = path => {
     if (fs.existsSync(path)) {
         fs.readdirSync(path).forEach(file => {
@@ -49,9 +50,9 @@ const deleteFolderDist = path => {
     }
 };
 
-// http服务
+// mock server
 const portListen = () => {
-    // mock数据接口服务：LOCAL.apiPort
+    // api server：LOCAL.apiPort
     for (let [k, value] of mockApi) {
         const method = k[0].toLowerCase();
         const rest = k[1];
@@ -88,7 +89,7 @@ const portListen = () => {
 
     console.log(`\x1B[33m[prince]\x1B[0m mock api server is starting at ${LOCAL.api}`);
 
-    // webSocket推送服务：LOCAL.socketPort
+    // webSocket server：LOCAL.socketPort
     const wss = new WebSocket.Server({ port: LOCAL.socketPort });
 
     wss.broadcast = (data, ws) => {
@@ -151,7 +152,7 @@ const portListen = () => {
     } */
 };
 
-// webpack打包
+// webpack start
 deleteFolderDist(path.join(__dirname, '../dist'));
 creatRouterFile();
 if (isDebug) {
@@ -180,6 +181,7 @@ if (isDebug) {
     const server = new WebpackDevServer(compiler, options);
 
     server.listen(LOCAL.devPort);
+    console.log(`\x1B[33m[prince]\x1B[0m dev server is starting at http://localhost:${LOCAL.devPort}`);
     portListen();
 } else {
     let compiler = webpack(webpackConfig);

@@ -1,79 +1,82 @@
-# prince 简介
-一个轻巧、全能、体验优秀的React-SPA应用开发脚手架
-- 支持状态管理调试
-- 支持修改文件自刷新
-- 支持本地新项目开发（local模式）、线上项目代理本地开发（debug模式）
-- 拥有类似native的页面转场体验
-- 每个路由页面所有代码拆分打包，切换路由加载代码动态注入状态管理
-- 提供get、post、jsonp、webSocket接口api，支持线上代理本地时mock请求与消息推送
+# About prince
+![license](https://img.shields.io/badge/license-MIT-green.svg)
 
-### 使用命令
- 1. 安装node.js（v8.0.0+）以及对应版本npm
- 2. 执行 `npm install prince-cli -g` 全局安装prince-cli
- 3. 执行 `prince new myApp` 新建react SPA项目
- 4. 在pages路径下 `prince add xxx` 新建一个页面(xxx为自定义模板名)
- 5. 执行 `npm install` 拉取项目依赖包
- 6. 执行 `npm run dev:local` 启动开发新项目环境
- 7. 执行 `npm run build` 打包发布
- 8. 执行 `npm run dev:debug` 启动线上项目代理环境
+[中文文档](https://github.com/yukilzw/prince/blob/master/README-cn.md)
+
+fast & light React SPA mobile tooling.
+- connect Redux.
+- webpack-dev-server provides hot reload.
+- Starting new programe at localhost(local mode); online programe code develop by proxy of localhost(debug mode).
+- page turning animation imitates native app.
+- each page is splited the trunks for router, and connect reducers with global store when it is onloaded.
+- support get、post、jsonp、webSocket mock function, support requesting localhost in the debug mode.
+
+### Use command
+ 1. you should install node.js (v8.0.0+)
+ 2. use `npm install prince-cli -g` install prince-cli for global
+ 3. use `prince new myApp` create new react SPA app from local template
+ 4. use `prince new myApp -r` create new react SPA app from remote(github) template
+ 5. cd to the pages path and use `prince add xxx` create a new page(xxx is your page name)
+ 6. use `npm install` install packages
+ 7. use `npm run dev:local` start local mode
+ 8. use `npm run dev:debug` start debug mode
+ 9. use `npm run build` create release bundle
  
-### 开发规范
-    ########### myApp项目结构 ###########
+### Development rule
+    ########### myApp formation ###########
     ├── mock
-    │   ├── mock.api.js         // http请求接口
-    │   ├── socket.api.js       // websocket消息接口
+    │   ├── mock.api.js         // http mock
+    │   ├── socket.api.js       // websocket mock
     │   └── data
-    │       ├── mockData.js     // rest请求mock数据
-    │       └── socketData.js   // websocket推送mock数据
+    │       ├── mockData.js     // rest mock data
+    │       └── socketData.js   // websocket mock data
     ├── script
-    │   ├── config.js           // 环境域名配置
-    │   ├── webpack.config.js   // webpack配置文件
-    │   └── server.js           // 本地服务端
+    │   ├── config.js           // environment host config
+    │   ├── webpack.config.js   // webpack config
+    │   └── server.js           // local server
     ├── src
-    │   ├── common                  // 通用业务
-    │   │   ├── action              // 事件
-    │   │   ├── assests             // 静态文件
-    │   │   ├── component           // 组件
-    │   │   ├── less                // 样式
-    │   │   ├── reducers            // 状态管理
-    │   │   └── service             // 方法
+    │   ├── common                  // common function
+    │   │   ├── action              // actions
+    │   │   ├── assests             // static files
+    │   │   ├── component           // components
+    │   │   ├── less                // styles
+    │   │   ├── reducers            // stores
+    │   │   └── service             // methods
     │   ├── page
-    │   │   ├── firstPage           // 第1页
-    │   │   │   ├── action              // 事件
-    │   │   │   ├── assests             // 静态文件
-    │   │   │   ├── component           // 组件
-    │   │   │   ├── less                // 样式
-    │   │   │   ├── reducers            // 状态管理
-    │   │   │   ├── service             // 方法
-    │   │   │   └── index.js            // 页面分包入口文件
-    │   │   ├── secondPage          // 第2页   
-    │   │   └── thirdPage           // 第3页
+    │   │   ├── firstPage           // page 1
+    │   │   │   ├── action              // actions
+    │   │   │   ├── assests             // static files
+    │   │   │   ├── component           // components
+    │   │   │   ├── less                // styles
+    │   │   │   ├── reducers            // stores
+    │   │   │   ├── service             // methods
+    │   │   │   └── index.js            // page entry
+    │   │   ├── secondPage          // page 2   
+    │   │   └── thirdPage           // page 3
     │   └── route
-    │       ├── router.js           // 路由核心逻辑
-    │       └── config.js           // 路由配置文件
-    ├── entry.js                // 总入口文件
-    ├── package.json            // npm配置
-    ├── .eslintrc               // Eslint规则
-    └── temp.html               // 模板
+    │       ├── router.js           // router core
+    │       └── config.js           // router config
+    ├── entry.js                // main entry
+    ├── package.json            // npm config
+    ├── .eslintrc               // Eslint config
+    └── temp.html               // template
   
-### 开发指南
-- 在 page 目录下`prince add xxx`新页面<br/>
+### Development guide
+- in the path of pages use`prince add xxx`to create new page template<br/>
 
-- 在 route/config.js 问为页面添加路由（可自行修改地址端口）：以下为例子 <br/>
-静态资源服务：`http://localhost:4396`（用于代理本地资源，与自刷新浏览器）<br/>
-http请求服务：`http://localhost:4397`（用于接受ajax，jsonp请求，返回mock数据）<br/>
-webSocket服务：`ws://localhost:4398`（用于收发webSocket消息）<br/>
+- add page routers at route/config.js (you can change the port anyway)：exemple <br/>
+static files server：`http://localhost:4396` (static files and hot reload)<br/>
+http requests server：`http://localhost:4397` (return ajax and jsonp mock request)<br/>
+webSocket server：`ws://localhost:4398` (send and push socket mock message)<br/>
 
-- component为DOM结构渲染与事件绑定，service为组件逻辑功能与请求，reducers为组件的状态管理（所有组件状态相通可获取），action为触发状态的标识方法
-
-- 发送http请求
+- http requests
 ``` 
 import { commonService } from '@common/service';
 /**
 * @description GET,POST,JSONP请求
-* @param {string} url 请求rest地址
-* @param {obj} data 请求数据
-* @param {obj} 附加配置（可选）
+* @param {string} url request url
+* @param {obj} data request data
+* @param {obj} options(optional)
 */
 commonService.get('/mockGetRest', null, { mock: true }).then(res => {
       console.log('GET response:', res);
@@ -85,38 +88,39 @@ commonService.jsonp('/mockJsonpRest', { a: 2 }).then(res => {
       console.log('JSONP response:', res);
 });
 ``` 
-可以在第三个配置参数中传入`{ mock, headers }`，mock在dev模式下会请求本地模拟数据，headers会像请求中添加自定义请求头，如果请求url为http或https开头，将请求绝对路径，否则请求相对路径。
+you can inject`{ mock, headers }`at the third parameter to get mock server return during debug mode, `headers`config will add custom request headers, if you request url start with `http` or `https`, it will use absolute path, otherwise will use relative path.
 
-- 接受与推送webSocket
+- send or push webSocket message
 ``` 
 import { commonService } from '@common/service';
 /**
-* @description 监听socket消息
-* @param {string} sign 数据的标签名
-* @param {obj} data 接受的数据
+* @description subscribe socket message
+* @param {string} sign name
+* @param {obj} data callback data
 */
 commonService.ws.subscribe('lzw', data => {
 	//...
 });
 commonService.ws.send({ a: 3 });
 ``` 
-subscribe第一个参数为与服务端定义的消息标签名，commonService会为每个标签注册单独的事件，当消息到达时，只会触发已注册消息标签名中的回调函数。
+first param of subscribe method define the sign which is confirmed by server side document,common
+Service create event subscribe for each sign,when the messages are sended to client, it will just trgger the callback that bind the same sign.
 
-- 开发与调试接口数据mock<br/>
+- development and debug data mock<br/>
 
-http请求模拟：
+http mock:
 ``` 
 const mockData = require('./data/mockData');
 
 const mockApi = new Map();
 
 /**
-* @description rest请求模拟数据
+* @description rest api mock
 * @example mockApi.set([method, url, timeout], response);
-* @param {string} method 请求方式，支持'GET','POST','JSONP'
-* @param {string} url 请求接口地址
-* @param {number} timeout 返回数据延时（可选）
-* @param {object} response 接口返回数据
+* @param {string} method api type, support'GET','POST','JSONP'
+* @param {string} url api url path
+* @param {number} timeout request return delay (optional)
+* @param {object} response request return data
 */
 mockApi.set(['GET', '/mockGetRest', 2000], mockData.mockGetRest);
 mockApi.set(['POST', '/mockPostRest', 200], mockData.mockPostRest);
@@ -125,18 +129,18 @@ mockApi.set(['JSONP', '/mockJsonpRest'], mockData.mockJsonpRest);
 module.exports = mockApi;
 ``` 
 
-webScoket推送模拟：
+webScoket mock:
 ``` 
 const socketData = require('./data/socketData');
 
 const socketApi = new Map();
 
 /**
-* @description socket推送模拟数据
+* @description webSocket msg mock
 * @example mockApi.set([type, time], response);
-* @param {string} type 推送方式，'timeout'为一次性推送，'interval'为间隔循环推送
-* @param {number} time 推送延时或间隔
-* @param {object} response 接口返回数据
+* @param {string} type push message times,'timeout' for once，'interval' for interval
+* @param {number} time interval time
+* @param {object} response socket push data
 */
 socketApi.set(['timeout', 2500], socketData.wzl);
 socketApi.set(['interval', 1000 * 20], socketData.lzw);
@@ -144,7 +148,7 @@ socketApi.set(['interval', 1000 * 20], socketData.lzw);
 module.exports = socketApi;
 ``` 
 
-- 页面间跳转
+- page turning
 
 ``` 
 import { commonService } from '@common/service';
@@ -154,10 +158,11 @@ commonService.pageJump('push', {
 });
 commonService.pageBack('go', -1);
 ``` 
-基于react-router封装的转场动画路由，pageJump为下一页的动画，pageBack为返回上一页的动画，第一个参数为react-router中history对面的原生方法名，第二个参数为传入原生方法的参数对象。
+add turning animation liked native is based on react-router, `pageJump`is animate to next page, `pageBack`is animate previous page, first param of this method is react-router history proto method, and the second param is history method options.
 
-- common文件夹用于存放所有共用的组件、状态、样式、方法等，通过`@common/`路径方便引入
-- `debug`使用前需要部署你自己的服务端环境，在环境域名配置。并将`build`后的文件提交到服务端<br/>
+- common folder content page component actions, reducers, methods needed many times, use path like`@common/`in the code.
+- `debug`mode require that you shuold build server side bufore using it, then edit file script/config.js and`build` program. At last commit dist folder to server side.<br/>
 
-### 开发者信息
-有任何问题或建议请邮件作者：334652479@qq.com
+### Developer information
+Any questions or suggestions please send e-mail to me:
+334652479@qq.com

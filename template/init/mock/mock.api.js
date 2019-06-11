@@ -3,12 +3,12 @@ const mockData = require('./data/mockData');
 const mockApi = new Map();
 
 /**
-* @description rest请求模拟数据
+* @description rest api mock
 * @example mockApi.set([method, url, timeout], response);
-* @param {string} method 请求方式，支持'GET','POST','JSONP'
-* @param {string} url 请求接口地址
-* @param {number} timeout 返回数据延时（可选）
-* @param {object} response 接口返回数据
+* @param {string} method api type, support'GET','POST','JSONP'
+* @param {string} url api url path
+* @param {number} timeout request return delay (optional)
+* @param {object} response request return data
 */
 mockApi.set(['GET', '/mockGetRest', 2000], mockData.mockGetRest);
 mockApi.set(['POST', '/mockPostRest', 200], mockData.mockPostRest);

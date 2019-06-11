@@ -1,41 +1,46 @@
 const program = require('commander');
-const shell = require('shelljs');
 const path = require('path');
+const fse = require('fs-extra');
 const { exec } = require('child_process');
 
-const copyFolder = require('./copy');
 const addPage = require('./addPage');
 const packageConf = require('../package.json');
 
-const pwd = shell.pwd();
+const cwd = process.cwd();
 
 program
     .version(packageConf.version, '-v, --version')
     .description(packageConf.name);
 
 program
-    .command('new <project>')
-    .description('creat new app from local')
-    .action(project => {
-        copyFolder(path.join(__dirname, '../template/init'), pwd + `/${project}`);
-    });
+    .option('-r, --remote', 'use \'new\' command to create app from github');
 
 program
-    .command('clone <project>')
-    .description('clone new app from github')
-    .action(project => {
-        console.log(`download into file path : ${pwd}\\${project}\\ ...`);
-        exec(`git clone https://github.com/yukilzw/prince ${project}/ --depth=1`, (error, stdout, stderr) => {
-            shell.rm('-rf', pwd + `/${project}/.git`);
-            console.log('clone suucess');
-        });
+    .command('new <project>')
+    .description('create app from local')
+    .action(async project => {
+        if (program.remote) {
+            console.log(`Clone template from https://github.com/yukilzw/prince into file path : "${cwd}\\${project}\\" ...`);
+            const childProcess = exec(`git clone https://github.com/yukilzw/prince .${project}/ --depth=1`);
+
+            childProcess.on('exit', async () => {
+                console.log(`checking out init template from git...`);
+                await fse.move(path.join(cwd, `./.${project}/template/init`), path.join(cwd, `./${project}`));
+                await fse.remove(path.join(cwd, `./.${project}`));
+                console.log('init successfully');
+            });
+        } else {
+            console.log(`checking out init template from local...`);
+            await fse.copy(path.join(__dirname, '../template/init'), path.join(cwd, `./${project}`));
+            console.log('init successfully');
+        }
     });
 
 program
     .command('add <project>')
     .description('add new page template into current path')
     .action(project => {
-        addPage(path.join(__dirname, '../template/page'), pwd + `/${project}`, project);
+        addPage(path.join(__dirname, '../template/page'), cwd + `/${project}`, project);
     });
 
 program

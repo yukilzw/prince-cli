@@ -23,8 +23,8 @@
     "homepage": "https://github.com/yukilzw/prince#readme",
     "dependencies": {
         "commander": "^2.16.0",
-        "path": "^0.12.7",
-        "shelljs": "^0.8.2"
+        "fs-extra": "^8.0.1",
+        "path": "^0.12.7"
     },
     "devDependencies": {
         "babel-eslint": "^10.0.1",
