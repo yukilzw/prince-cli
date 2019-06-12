@@ -19,6 +19,7 @@
  7. 执行 `npm run dev:local` 启动开发新项目环境
  8. 执行 `npm run dev:debug` 启动线上项目代理环境
  9. 执行 `npm run build` 打包生成发布代码
+ 10. 执行 `npm test` 进行模块单元测试
  
 ### 开发规范
     ########### myApp 项目结构 ###########

@@ -21,6 +21,7 @@ fast & light React SPA mobile tooling.
  7. use `npm run dev:local` start local mode
  8. use `npm run dev:debug` start debug mode
  9. use `npm run build` create release bundle
+ 10. use `npm test` run unit testing
  
 ### Development rule
     ########### myApp formation ###########
