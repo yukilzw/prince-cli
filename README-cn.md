@@ -49,6 +49,7 @@
     │   │   │   ├── less                // 样式
     │   │   │   ├── reducers            // 状态管理
     │   │   │   ├── service             // 方法
+    │   │   │   ├── firstPage.test.js   // 单元测试
     │   │   │   └── index.js            // 页面分包入口文件
     │   │   ├── secondPage          // 第2页   
     │   │   └── thirdPage           // 第3页

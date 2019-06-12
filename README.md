@@ -51,6 +51,7 @@ fast & light React SPA mobile tooling.
     │   │   │   ├── less                // styles
     │   │   │   ├── reducers            // stores
     │   │   │   ├── service             // methods
+    │   │   │   ├── firstPage.test.js   // unit test
     │   │   │   └── index.js            // page entry
     │   │   ├── secondPage          // page 2   
     │   │   └── thirdPage           // page 3
