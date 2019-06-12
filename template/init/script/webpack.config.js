@@ -69,10 +69,16 @@ const webpackConfig = {
                 exclude: [path.join(__dirname, '../node_modules/')],
                 loader: 'babel-loader',
                 options: {
-                    presets: [['es2015', { modules: false }], 'stage-0', 'react'],
+                    presets: [
+                        ['@babel/preset-env', { modules: false }],
+                        '@babel/preset-react'
+                    ],
                     plugins: [
-                        'transform-decorators-legacy',
-                        'syntax-dynamic-import'
+                        ['@babel/plugin-proposal-decorators', { 'legacy': true }],
+                        '@babel/proposal-class-properties',
+                        '@babel/plugin-syntax-dynamic-import',
+                        '@babel/plugin-transform-object-assign',
+                        ['@babel/plugin-transform-runtime', { 'corejs': 2 }]
                     ]
                 }
             },

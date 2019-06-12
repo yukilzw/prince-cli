@@ -1,6 +1,6 @@
 {
     "name": "prince-spa",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "scripts": {
         "build": "cross-env NODE_ENV=production node ./script/server.js",
         "dev:local": "cross-env NODE_ENV=development DEBUG=1 node ./script/server.js --colors",
@@ -22,14 +22,18 @@
         "redux-thunk": "^2.3.0"
     },
     "devDependencies": {
+        "@babel/core": "^7.2.0",
+        "@babel/plugin-proposal-class-properties": "^7.2.1",
+        "@babel/plugin-proposal-decorators": "^7.2.0",
+        "@babel/plugin-transform-object-assign": "^7.2.0",
+        "@babel/plugin-transform-runtime": "^7.2.0",
+        "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+        "@babel/preset-env": "^7.2.0",
+        "@babel/preset-react": "^7.0.0",
+        "@babel/runtime-corejs2": "^7.2.0",
         "autoprefixer": "~9.5.0",
-        "babel-core": "^6.24.1",
         "babel-eslint": "^10.0.1",
-        "babel-loader": "^7.1.0",
-        "babel-plugin-transform-decorators-legacy": "^1.3.5",
-        "babel-preset-es2015": "^6.24.1",
-        "babel-preset-react": "^6.24.1",
-        "babel-preset-stage-0": "^6.24.1",
+        "babel-loader": "^8.0.6",
         "cross-env": "^5.2.0",
         "css-loader": "^0.28.11",
         "eslint": "^5.9.0",
@@ -38,7 +42,7 @@
         "friendly-errors-webpack-plugin": "^1.7.0",
         "html-webpack-plugin": "^3.2.0",
         "jest": "^24.8.0",
-        "ws": "^7.0.0",
+        "babel-jest": "^24.8.0",
         "koa": "^2.5.1",
         "koa-bodyparser": "^4.2.1",
         "koa-router": "^7.4.0",
@@ -53,6 +57,7 @@
         "style-loader": "^0.21.0",
         "url": "^0.11.0",
         "webpack": "^4.14.0",
-        "webpack-dev-server": "^3.1.10"
+        "webpack-dev-server": "^3.1.10",
+        "ws": "^7.0.0"
     }
 }

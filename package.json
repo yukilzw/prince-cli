@@ -1,7 +1,7 @@
 {
     "name": "prince-cli",
-    "version": "0.1.3",
-    "description": "automatic tool for web development.",
+    "version": "0.1.4",
+    "description": "automatic tool for h5 SPA development.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

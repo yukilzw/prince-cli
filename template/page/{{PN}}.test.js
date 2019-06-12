@@ -1,0 +1,5 @@
+/*eslint-disable*/
+
+test('{{PN}}', () => {
+
+});
