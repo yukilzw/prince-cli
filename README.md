@@ -1,5 +1,5 @@
 # About prince
-![license](https://img.shields.io/badge/license-MIT-green.svg)
+![license](https://img.shields.io/badge/license-MIT-green.svg)![node](https://img.shields.io/badge/node-8.0%2B-brightgreen.svg)
 
 [中文文档](https://github.com/yukilzw/prince/blob/master/README-cn.md)
 
@@ -12,16 +12,15 @@ fast & light React SPA mobile tooling.
 - support get、post、jsonp、webSocket mock function, support requesting localhost in the debug mode.
 
 ### Use command
- 1. you should install node.js (v8.0.0+)
- 2. use `npm install prince-cli -g` install prince-cli for global
- 3. use `prince new myApp` create new react SPA app from local template
- 4. use `prince new myApp -r` create new react SPA app from remote(github) template
- 5. cd to the pages path and use `prince add xxx` create a new page(xxx is your page name)
- 6. use `npm install` install packages
- 7. use `npm run dev:local` start local mode
- 8. use `npm run dev:debug` start debug mode
- 9. use `npm run build` create release bundle
- 10. use `npm test` run unit testing
+- use `npm install prince-cli -g` install prince-cli for global
+- use `prince new myApp` create new react SPA app from local template
+- use `prince new myApp -r` create new react SPA app from remote(github) template
+- cd to the pages path and use `prince add xxx` create a new page(xxx is your page name)
+- use `npm install` install packages
+- use `npm run dev:local` start local mode
+- use `npm run dev:debug` start debug mode
+- use `npm run build` create release bundle
+- use `npm test` run unit testing
  
 ### Development rule
     ########### myApp formation ###########

@@ -1,5 +1,5 @@
 # prince 简介
-![license](https://img.shields.io/badge/license-MIT-green.svg)
+![license](https://img.shields.io/badge/license-MIT-green.svg)![node](https://img.shields.io/badge/node-8.0%2B-brightgreen.svg)
 
 一个轻巧、全能、体验优秀的React-SPA应用开发脚手架
 - 支持状态管理调试
@@ -10,16 +10,15 @@
 - 提供get、post、jsonp、webSocket接口api，支持线上代理本地时mock请求与消息推送
 
 ### 使用命令
- 1. 安装node.js（v8.0.0+）
- 2. 执行 `npm install prince-cli -g` 全局安装prince-cli
- 3. 执行 `prince new myApp` 从本地模板新建react SPA项目
- 4. 执行 `prince new myApp -r` 从远程git仓库模板新建react SPA项目
- 5. 在pages路径下 `prince add xxx` 新建一个页面(xxx为自定义模板名)
- 6. 执行 `npm install` 拉取项目依赖包
- 7. 执行 `npm run dev:local` 启动开发新项目环境
- 8. 执行 `npm run dev:debug` 启动线上项目代理环境
- 9. 执行 `npm run build` 打包生成发布代码
- 10. 执行 `npm test` 进行模块单元测试
+- 执行 `npm install prince-cli -g` 全局安装prince-cli
+- 执行 `prince new myApp` 从本地模板新建react SPA项目
+- 执行 `prince new myApp -r` 从远程git仓库模板新建react SPA项目
+- 在pages路径下 `prince add xxx` 新建一个页面(xxx为自定义模板名)
+- 执行 `npm install` 拉取项目依赖包
+- 执行 `npm run dev:local` 启动开发新项目环境
+- 执行 `npm run dev:debug` 启动线上项目代理环境
+- 执行 `npm run build` 打包生成发布代码
+- 执行 `npm test` 进行模块单元测试
  
 ### 开发规范
     ########### myApp 项目结构 ###########
