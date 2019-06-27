@@ -1,5 +1,5 @@
 # prince 简介
-![license](https://img.shields.io/badge/license-MIT-green.svg)![node](https://img.shields.io/badge/node-8.0%2B-brightgreen.svg)
+![license](https://img.shields.io/badge/license-MIT-green.svg) ![node](https://img.shields.io/badge/node-8.0%2B-brightgreen.svg)
 
 一个轻巧、全能、体验优秀的React-SPA应用开发脚手架
 - 支持状态管理调试

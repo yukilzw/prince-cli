@@ -1,5 +1,5 @@
 # About prince
-![license](https://img.shields.io/badge/license-MIT-green.svg)![node](https://img.shields.io/badge/node-8.0%2B-brightgreen.svg)
+![license](https://img.shields.io/badge/license-MIT-green.svg) ![node](https://img.shields.io/badge/node-8.0%2B-brightgreen.svg)
 
 [中文文档](https://github.com/yukilzw/prince/blob/master/README-cn.md)
 
