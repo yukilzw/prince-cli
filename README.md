@@ -74,7 +74,7 @@ webSocket server：`ws://localhost:4398` (send and push socket mock message)<br/
 ``` 
 import { commonService } from '@common/service';
 /**
-* @description GET,POST,JSONP请求
+* @description GET,POST,JSONP request
 * @param {string} url request url
 * @param {obj} data request data
 * @param {obj} options(optional)
