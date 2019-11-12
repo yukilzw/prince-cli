@@ -52,7 +52,7 @@
         "less": "^3.8.0",
         "less-loader": "^4.1.0",
         "mini-css-extract-plugin": "^0.4.4",
-        "open": "^0.0.5",
+        "open": "^6.0.0",
         "path": "^0.12.7",
         "postcss-loader": "^2.1.6",
         "react": "^16.4.1",
