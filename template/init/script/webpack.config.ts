@@ -1,5 +1,5 @@
-import path from 'path';
-import webpack from 'webpack';
+import path = require('path');
+import webpack = require('webpack');
 import { REMOTE, LOCAL } from './config';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');

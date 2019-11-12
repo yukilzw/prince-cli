@@ -1,5 +1,5 @@
 {
-    "parser": "babel-eslint",
+    "parser": "@typescript-eslint/parser",
     "env": {
         "browser": true,
         "node": true,
@@ -25,13 +25,14 @@
         }
     },
     "plugins": [
-        "react"
+        "@typescript-eslint", "react"
     ],
     "globals": {
         "MOCK_PATH": true,
         "SOCKET_HOST": true,
         "REQUEST_HOST": true,
-        "DEBUG": true
+        "DEBUG": true,
+        "object": true
     },
     "rules": {
         ////////////////
