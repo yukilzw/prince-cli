@@ -2,6 +2,7 @@
     "name": "prince-spa",
     "version": "0.0.3",
     "scripts": {
+        "dev": "npm run dev:local",
         "build": "cross-env NODE_ENV=production node ./script/server.js",
         "dev:local": "cross-env NODE_ENV=development DEBUG=1 node ./script/server.js --colors",
         "dev:debug": "cross-env NODE_ENV=production DEBUG=1 node ./script/server.js --colors",

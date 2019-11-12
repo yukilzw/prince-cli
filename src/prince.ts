@@ -1,9 +1,9 @@
-const program = require('commander');
-const path = require('path');
+import path = require('path');
+import program = require('commander');
+import childProcess = require('child_process');
 const fse = require('fs-extra');
-const { exec } = require('child_process');
 
-const addPage = require('./addPage');
+const addPages = require('./addPage');
 const packageConf = require('../package.json');
 
 const cwd = process.cwd();
@@ -18,12 +18,12 @@ program
 program
     .command('new <project>')
     .description('create app from local')
-    .action(async project => {
+    .action(async (project: string) => {
         if (program.remote) {
             console.log(`Clone template from https://github.com/yukilzw/prince into file path : "${cwd}\\${project}\\" ...`);
-            const childProcess = exec(`git clone https://github.com/yukilzw/prince .${project}/ --depth=1`);
+            const cloneProcess = childProcess.exec(`git clone https://github.com/yukilzw/prince .${project}/ --depth=1`);
 
-            childProcess.on('exit', async () => {
+            cloneProcess.on('exit', async () => {
                 console.log(`checking out init template from git...`);
                 await fse.move(path.join(cwd, `./.${project}/template/init`), path.join(cwd, `./${project}`));
                 await fse.remove(path.join(cwd, `./.${project}`));
@@ -39,8 +39,8 @@ program
 program
     .command('add <project>')
     .description('add new page template into current path')
-    .action(project => {
-        addPage(path.join(__dirname, '../template/page'), cwd + `/${project}`, project);
+    .action((project: string) => {
+        addPages(path.join(__dirname, '../template/page'), cwd + `/${project}`, project);
     });
 
 program

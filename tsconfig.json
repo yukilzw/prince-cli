@@ -1,0 +1,22 @@
+{
+    "include": ["./*.ts", "./src/*.ts"],
+    "exclude": [],
+    "compilerOptions": {
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "types": ["node"],
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "allowJs": true,
+        "module": "commonjs",
+        "target": "es5",
+        "moduleResolution": "node",
+        "lib": ["es2015"],
+        "sourceMap": false,
+        "pretty": true,
+        "strictFunctionTypes": false,
+        "importHelpers": true,
+        "noImplicitAny": true
+    }
+}
