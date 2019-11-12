@@ -1,10 +1,11 @@
 {
     "name": "prince-cli",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "automatic tool for h5 SPA development.",
     "main": "index.js",
     "scripts": {
-        "build": "tsc"
+        "build": "tsc",
+        "lint": "eslint"
     },
     "repository": {
         "type": "git",
@@ -22,15 +23,17 @@
     },
     "homepage": "https://github.com/yukilzw/prince#readme",
     "dependencies": {
-        "@types/node": "^12.12.7",
         "commander": "^2.16.0",
         "fs-extra": "^8.0.1",
-        "path": "^0.12.7",
-        "typescript": "^3.7.2"
+        "path": "^0.12.7"
     },
     "devDependencies": {
+        "typescript": "^3.7.2",
+        "@types/node": "^12.12.7",
+        "@typescript-eslint/eslint-plugin": "^2.7.0",
+        "@typescript-eslint/parser": "^2.7.0",
         "babel-eslint": "^10.0.1",
-        "eslint": "^5.9.0",
+        "eslint": "^5.16.0",
         "eslint-plugin-react": "^7.11.1"
     },
     "bin": {

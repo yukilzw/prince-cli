@@ -1,4 +1,11 @@
-module.exports.mockGetRest = {
+interface MockData {
+    err: number;
+    data?: object;
+}
+
+export default MockData;
+
+export const mockGetRest = {
     err: 0,
     data: {
         type: 'GET_respose',
@@ -6,7 +13,7 @@ module.exports.mockGetRest = {
     }
 };
 
-module.exports.mockPostRest = {
+export const mockPostRest = {
     err: 0,
     data: {
         type: 'POST_respose',
@@ -14,7 +21,7 @@ module.exports.mockPostRest = {
     }
 };
 
-module.exports.mockJsonpRest = {
+export const mockJsonpRest = {
     err: 0,
     data: {
         type: 'JSONP_respose',

@@ -1,6 +1,6 @@
-const mockData = require('./data/mockData');
+import MockData, * as mockData from './data/mockData';
 
-const mockApi = new Map();
+const mockApi: Map<Array<any>, MockData> = new Map();
 
 /**
 * @description rest api mock
@@ -14,4 +14,4 @@ mockApi.set(['GET', '/mockGetRest', 2000], mockData.mockGetRest);
 mockApi.set(['POST', '/mockPostRest', 200], mockData.mockPostRest);
 mockApi.set(['JSONP', '/mockJsonpRest'], mockData.mockJsonpRest);
 
-module.exports = mockApi;
+export default mockApi;

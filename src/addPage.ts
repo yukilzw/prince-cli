@@ -26,7 +26,7 @@ const filterTemp = (str: string, context: FilterTemp) : string => {
         }
         return currentStr;
     });
-}
+};
 
 const copy = (src: string, dst: string) => {
     fs.readdir(src, (err, paths: Array<string>) => {

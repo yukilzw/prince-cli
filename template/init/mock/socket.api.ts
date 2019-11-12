@@ -1,6 +1,6 @@
-const socketData = require('./data/socketData');
+import SocketData, * as socketData from './data/socketData';
 
-const socketApi = new Map();
+const socketApi: Map<Array<any>, SocketData> = new Map();
 
 /**
 * @description webSocket msg mock
@@ -12,4 +12,4 @@ const socketApi = new Map();
 socketApi.set(['timeout', 2500], socketData.wzl);
 socketApi.set(['interval', 1000 * 20], socketData.lzw);
 
-module.exports = socketApi;
+export default socketApi;

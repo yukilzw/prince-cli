@@ -1,9 +1,13 @@
-const webpack = require('webpack');
-const path = require('path');
+import path from 'path';
+import webpack from 'webpack';
+import { REMOTE, LOCAL } from './config';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-const { REMOTE, LOCAL } = require('./config');
+
+interface WebPackConfig {
+    [key: string]: any
+}
 
 const extraPlugins = [];
 
@@ -33,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
     }
 }
 
-const webpackConfig = {
+const webpackConfig: WebPackConfig = {
     entry: {
         entry: path.join(__dirname, '../entry.js')
     },
@@ -135,7 +139,7 @@ const webpackConfig = {
     mode: isDebug ? 'development' : 'production'
 };
 
-module.exports = {
+export {
     webpackConfig,
     isDebug
 };

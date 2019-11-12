@@ -1,21 +1,26 @@
-const path = require('path');
-const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
-const Koa = require('koa');
-const Router = require('koa-router');
-const bodyParser = require('koa-bodyparser');
+import path from 'path';
+import webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
+import Koa from 'koa';
+import Router from 'koa-router';
+import bodyParser from 'koa-bodyparser';
+import url from 'url';
+import fs from 'fs';
+import { webpackConfig, isDebug } from './webpack.config';
+import mockApi from '../mock/mock.api';
+import socketApi from '../mock/socket.api';
+import { REMOTE, LOCAL } from './config';
 const WebSocket = require('ws');
-const url = require('url');
-const fs = require('fs');
-const op = require('open');
-const { webpackConfig, isDebug } = require('./webpack.config');
-const mockApi = require('../mock/mock.api');
-const socketApi = require('../mock/socket.api');
+// const op = require('op');
+
 const routeConfig = require('../src/route/config');
-const { REMOTE, LOCAL } = require('./config');
+
+interface KoaRouter {
+    [keys: string]: any
+}
 
 const app = new Koa();
-const router = new Router();
+const router: KoaRouter = new Router();
 
 // create dynamic router for each page
 const creatRouterFile = () => {
@@ -35,9 +40,9 @@ const creatRouterFile = () => {
 };
 
 // clean path
-const deleteFolderDist = path => {
+const deleteFolderDist = (path: string) => {
     if (fs.existsSync(path)) {
-        fs.readdirSync(path).forEach(file => {
+        fs.readdirSync(path).forEach((file: string) => {
             const curPath = path + '/' + file;
 
             if (fs.statSync(curPath).isDirectory()) {
@@ -63,7 +68,7 @@ const portListen = () => {
             way = 'get';
         }
 
-        router[way](rest, async ctx => {
+        router[way](rest, async (ctx: any) => {
             let reqData;
 
             await new Promise(resolve => {
@@ -92,14 +97,14 @@ const portListen = () => {
     // webSocket server：LOCAL.socketPort
     const wss = new WebSocket.Server({ port: LOCAL.socketPort });
 
-    wss.broadcast = (data, ws) => {
-        wss.clients.forEach(client => {
+    wss.broadcast = (data: object | string, ws: object) => {
+        wss.clients.forEach((client: any) => {
             if (client === ws && client.readyState === WebSocket.OPEN) {
                 client.send(data);
             }
         });
     };
-    wss.on('connection', (ws, req) => {
+    wss.on('connection', (ws: any, req: any) => {
         console.log(`\x1B[33m[prince]\x1B[0m new client has connected webSocket.Server`);
         const query = url.parse(req.url, true).query;
 
@@ -127,7 +132,7 @@ const portListen = () => {
             }
         }
 
-        ws.on('message', message => {
+        ws.on('message', (message: string | object) => {
             if (typeof message === 'string') {
                 console.log(`\x1B[33m[prince]\x1B[0m webSocket on msg: ${ message }`);
             } else if (typeof message === 'object') {
@@ -135,11 +140,11 @@ const portListen = () => {
             }
         });
         ws.on('close', () => {
-            ws.timerArr.forEach(timer => clearInterval(timer));
+            ws.timerArr.forEach((timer: any) => clearInterval(timer));
             delete ws.timerArr;
             console.log(`\x1B[33m[prince]\x1B[0m webSocket closed`);
         });
-        ws.on('error', err => {
+        ws.on('error', (err: object) => {
             console.log(`\x1B[31m[prince]\x1B[0m ${err}`);
         });
     });
@@ -157,7 +162,7 @@ deleteFolderDist(path.join(__dirname, '../dist'));
 creatRouterFile();
 if (isDebug) {
     webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
-    const options = {
+    const options: WebpackDevServer.Configuration = {
         quiet: true,
         hot: true,
         inline: true,
@@ -168,8 +173,8 @@ if (isDebug) {
             errors: true,
             warnings: true
         },
-        setup(app) {
-            app.use('*', (req, res, next) => {
+        setup(app: any) {
+            app.use('*', (req: any, res: any, next: Function) => {
                 res.header('Access-Control-Allow-Origin', '*');
                 next();
             });
@@ -186,7 +191,7 @@ if (isDebug) {
 } else {
     let compiler = webpack(webpackConfig);
 
-    compiler.run((err, stats) => {
+    compiler.run((err: object, stats: any) => {
         if (err || stats.hasErrors()) {
             console.log(stats.compilation.errors);
         } else {
