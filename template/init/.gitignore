@@ -1,6 +1,3 @@
 dist
+.build
 npm-debug.log
-routeImage.js
-script/*.js
-mock/*.js
-mock/*/*.js

@@ -1,4 +1,4 @@
-const routeConfig = {
+module.exports = {
     first: {
         path: '/',
         src: '../pages/firstPage/index.js'
@@ -12,5 +12,3 @@ const routeConfig = {
         src: '../pages/thirdPage/index.js'
     }
 };
-
-module.exports = routeConfig;

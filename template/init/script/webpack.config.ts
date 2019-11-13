@@ -39,10 +39,10 @@ if (process.env.NODE_ENV === 'production') {
 
 const webpackConfig: WebPackConfig = {
     entry: {
-        entry: path.join(__dirname, '../entry.js')
+        entry: path.join(process.cwd(), './src/entry.js')
     },
     output: {
-        path: path.join(__dirname, '../dist'),
+        path: path.join(process.cwd(), './dist'),
         publicPath,
         filename: isDebug ? '[name].js' : '[name]_[chunkhash:5].js',
         chunkFilename: isDebug ? '[name].js' : '[name]_[chunkhash:5].js'
@@ -70,7 +70,7 @@ const webpackConfig: WebPackConfig = {
             },
             {
                 test: /\.js$/,
-                exclude: [path.join(__dirname, '../node_modules/')],
+                exclude: [path.join(process.cwd(), './node_modules/')],
                 loader: 'babel-loader',
                 options: {
                     presets: [
@@ -107,7 +107,7 @@ const webpackConfig: WebPackConfig = {
     resolve: {
         extensions: ['.js', '.jsx', '.json'],
         alias: {
-            '@common': path.join(__dirname, '../src/common'),
+            '@common': path.join(process.cwd(), './src/common'),
             '@route': path.join(__dirname, './routeImage')
         }
     },
@@ -121,7 +121,7 @@ const webpackConfig: WebPackConfig = {
             SOCKET_HOST: process.env.NODE_ENV === 'production' ? `"${REMOTE.socket}"` : `"${LOCAL.socket}"`
         }),
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, '../temp.html'),
+            template: path.join(process.cwd(), './temp.html'),
             filename: 'index.html',
             inject: 'body',
             minify: {
@@ -129,7 +129,7 @@ const webpackConfig: WebPackConfig = {
                 collapseWhitespace: false,
                 minifyJS: true
             },
-            favicon: path.join(__dirname, '../src/common/assests/prince.ico')
+            favicon: path.join(process.cwd(), './src/common/assests/prince.ico')
         }),
         new MiniCssExtractPlugin({
             filename: '[name]_[chunkhash:5].css'

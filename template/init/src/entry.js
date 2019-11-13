@@ -6,7 +6,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import RouteElements from './src/route/router';
+import RouteElements from './route/router';
 import reducers from '@common/reducers';
 import { commonService } from '@common/service';
 

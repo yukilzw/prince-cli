@@ -7,13 +7,13 @@ import bodyParser = require('koa-bodyparser');
 import url = require('url');
 import fs = require('fs');
 import { webpackConfig, isDebug } from './webpack.config';
-import mockApi from '../mock/mock.api';
-import socketApi from '../mock/socket.api';
 import { REMOTE, LOCAL } from './config';
+const mockApi = require(path.join(process.cwd(), './.build/mock/mock.api')).default;
+const socketApi = require(path.join(process.cwd(), './.build/mock/socket.api')).default;
 const WebSocket = require('ws');
-// const op = require('op');
 
-const routeConfig = require('../src/route/config');
+// const op = require('op');
+const routeConfig = require(path.join(process.cwd(), './src/route/config'));
 
 interface KoaRouter {
     [keys: string]: any
@@ -29,7 +29,7 @@ const creatRouterFile = () => {
         const { path: location, src } = routeConfig[moduleName];
 
         let code = `{ path: '${location}', modules:` +
-            `() => import(/* webpackChunkName: '${moduleName}' */ '${path.join(__dirname, '../src/route', src).replace(/\\/g, '/')}')` +
+            `() => import(/* webpackChunkName: '${moduleName}' */ '${path.join(process.cwd(), './src/route', src).replace(/\\/g, '/')}')` +
         ` }`;
 
         return code;
@@ -158,7 +158,7 @@ const portListen = () => {
 };
 
 // webpack start
-deleteFolderDist(path.join(__dirname, '../dist'));
+deleteFolderDist(path.join(process.cwd(), './dist'));
 creatRouterFile();
 if (isDebug) {
     webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
@@ -195,13 +195,13 @@ if (isDebug) {
         if (err || stats.hasErrors()) {
             console.log(stats.compilation.errors);
         } else {
-            let htmlTemplate = fs.readFileSync(path.join(__dirname, '../dist/index.html'), 'utf-8');
+            let htmlTemplate = fs.readFileSync(path.join(process.cwd(), './dist/index.html'), 'utf-8');
             const re = new RegExp(REMOTE.api + '/static/prince', 'g');
 
             htmlTemplate = htmlTemplate.replace(re, `http://localhost:${LOCAL.devPort}`).replace(/_[0-9a-z]{5}\.js/g, '.js');
 
-            fs.writeFileSync(path.join(__dirname, '../dist/prince-dev.html'), htmlTemplate);
-            fs.renameSync(path.join(__dirname, '../dist/index.html'), path.join(__dirname, '../dist/prince.html'));
+            fs.writeFileSync(path.join(process.cwd(), './dist/prince-dev.html'), htmlTemplate);
+            fs.renameSync(path.join(process.cwd(), './dist/index.html'), path.join(process.cwd(), './dist/prince.html'));
             console.log(stats.toString({
                 chunks: false,
                 colors: true

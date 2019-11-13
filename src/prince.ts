@@ -44,6 +44,28 @@ program
     });
 
 program
+    .command('dev <mode>')
+    .description('start develop mode')
+    .action((mode: string) => {
+        if (mode === 'local') {
+            process.env.DEBUG = '1';
+            process.env.NODE_ENV = 'development';
+        } else if (mode === 'debug') {
+            process.env.DEBUG = '1';
+            process.env.NODE_ENV = 'production';
+        }
+        import('./compile');
+    });
+
+program
+    .command('build')
+    .description('build app bundles')
+    .action(() => {
+        process.env.NODE_ENV = 'production';
+        import('./compile');
+    });
+
+program
     .command('*')
     .action(() => {
         program.help();
