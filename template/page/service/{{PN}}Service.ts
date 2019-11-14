@@ -1,4 +1,3 @@
-
 import { commonService } from '@common/service/commonService';
 
 class {{PN}}Services {
