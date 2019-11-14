@@ -1,30 +1,24 @@
 {
-    "include": ["./"],
-    "exclude": ["node_modules"],
+    "include": ["./mock", "./script"],
+    "exclude": ["node_modules", "src", "babel.config.js"],
     "compilerOptions": {
         "typeRoots": [
             "node_modules/@types"
         ],
         "types": ["node"],
-        "baseUrl": ".",
-        "paths": {
-            "@common/*": ["./src/common/*"],
-            "@route": ["./.build/script/routeImage"]
-        },
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
         "allowJs": true,
         "module": "commonjs",
-        "jsx": "react",
         "target": "es5",
         "moduleResolution": "node",
-        "lib": ["es2015", "dom"],
+        "lib": ["es2015"],
+        "sourceMap": false,
         "outDir": "./.build",
-        "sourceMap": true,
         "pretty": true,
         "strictFunctionTypes": false,
         "importHelpers": true,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "downlevelIteration": true
     }
 }

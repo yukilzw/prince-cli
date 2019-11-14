@@ -1,11 +1,25 @@
 import commonActions from '@common/actions/commonActions';
-import fetchJsonp from 'fetch-jsonp';
+import fetchJsonp = require('fetch-jsonp');
 import { combineReducers } from 'redux';
+
+interface HttpOption {
+    mock?: boolean;
+    headers?: object;
+    cbName?: string;
+}
+
+interface HttpConfig {
+    method?: string;
+    headers?: object;
+    body?: string;
+}
 
 class CommonService {
     store                  // global store
     router                 // global router
-    currentLoation         // current url storage
+    currentLoation: string         // current url storage
+    pageTurning: boolean
+    pageDirect: number
     // webSocket object (if you don't need webSocket,you can delete 'ws' property)
     ws = {
         /**
@@ -13,7 +27,7 @@ class CommonService {
         * @param {string} sign name
         * @param {function} callBack function
         */
-        subscribe(sign, callBack) {
+        subscribe(sign: string, callBack: Function) {
             callBack && document.addEventListener(`onsocketmsg${sign}`, e => callBack(e.detail), false);
         },
 
@@ -21,7 +35,7 @@ class CommonService {
         * @description webSocket send message
         * @param {string|object} data send data
         */
-        send(data) {
+        send(data: string|object) {
             this.sendMsgList.push(data);
         },
 
@@ -183,8 +197,8 @@ class CommonService {
     * @param {obj} data request data(optional)
     * @param {obj} option request option(optional)
     */
-    post(url, data = {}, option = {}) {
-        const config = {
+    post(url, data = {}, option: HttpOption = {}) {
+        const config: HttpConfig = {
             method: 'post',
             headers: { 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8' },
             body: data ? this.param(data) : undefined
@@ -199,7 +213,7 @@ class CommonService {
             reqPath = this.getPath(url);
         }
 
-        return fetch(reqPath, config).then(res => res.json());
+        return fetch(reqPath, config as RequestInit).then(res => res.json());
     }
     /**
     * @description GET request
@@ -207,8 +221,8 @@ class CommonService {
     * @param {obj} data request data(optional)
     * @param {obj} option request option(optional)
     */
-    get(url, data = {}, option = {}) {
-        const config = {
+    get(url, data = {}, option: HttpOption = {}) {
+        const config: HttpConfig = {
             method: 'get'
         };
 
@@ -221,7 +235,7 @@ class CommonService {
             reqPath = this.getPath(url);
         }
 
-        return fetch(`${reqPath}?${data ? this.param(data) : ''}`, config).then(res => res.json());
+        return fetch(`${reqPath}?${data ? this.param(data) : ''}`, config as RequestInit).then(res => res.json());
     }
     /**
     * @description JSONP request
@@ -229,7 +243,7 @@ class CommonService {
     * @param {obj} data request data(optional)
     * @param {string} jsonpCallbackFunction JSONP callBack function name
     */
-    jsonp(url, data = {}, option = {}) {
+    jsonp(url, data = {}, option: HttpOption = {}) {
         let cbName = 'PrinceJsonpCallBack';
 
         if (option.cbName) {
@@ -241,7 +255,7 @@ class CommonService {
             reqPath = this.getPath(url);
         }
 
-        return fetchJsonp(`${reqPath}?${data ? this.param(data) : ''}`, cbName).then(res => res.json());
+        return fetchJsonp(`${reqPath}?${data ? this.param(data) : ''}`, cbName as fetchJsonp.Options).then(res => res.json());
     }
     getPath(url) {
         if (url.match(/^http|^https/)) {

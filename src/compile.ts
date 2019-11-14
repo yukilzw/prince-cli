@@ -12,10 +12,10 @@ const formatHost = {
 };
 
 const watchCompile = () => {
-    const configPath = ts.findConfigFile(process.cwd(), ts.sys.fileExists, 'tsconfig.json');
+    const configPath = ts.findConfigFile(process.cwd(), ts.sys.fileExists, 'tsconfig.dev-server.json');
 
     if (!configPath) {
-        throw new Error(`Could not find a valid 'tsconfig.json'`);
+        throw new Error(`Could not find a valid 'tsconfig.dev-server.json'`);
     }
 
     const createProgram = ts.createSemanticDiagnosticsBuilderProgram;
@@ -31,13 +31,13 @@ const watchCompile = () => {
 
     const origCreateProgram = host.createProgram;
 
-    host.createProgram = (rootNames: any, options: any, host: any, oldProgram: any) => {
+    host.createProgram = (rootNames, options, host, oldProgram) => {
         console.log(`start creat develop environment`);
         return origCreateProgram(rootNames, options, host, oldProgram);
     };
     const origPostProgramCreate = host.afterProgramCreate;
 
-    host.afterProgramCreate = (program: any) => {
+    host.afterProgramCreate = (program) => {
         console.log('compile typescript server successfully');
         origPostProgramCreate(program);
     };
@@ -62,7 +62,7 @@ const reportWatchStatusChanged = (diagnostic: any) => {
 
     if (message.indexOf('TS6194') > 0) {
         if (compileChange) {
-            console.log(`Mock Data has been changed, please 'npm run ${process.argv[2]}' again`);
+            console.log(`Mock server files have been changed, please 'prince dev ${process.argv[3]}' again!`);
             process.exit(0);
         }
         compileChange = true;

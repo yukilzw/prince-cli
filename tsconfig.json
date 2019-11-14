@@ -1,6 +1,6 @@
 {
     "include": ["./*.ts", "./src/*.ts"],
-    "exclude": [],
+    "exclude": ["node_modules"],
     "compilerOptions": {
         "typeRoots": [
             "node_modules/@types"
@@ -17,6 +17,7 @@
         "pretty": true,
         "strictFunctionTypes": false,
         "importHelpers": true,
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "downlevelIteration": true
     }
 }

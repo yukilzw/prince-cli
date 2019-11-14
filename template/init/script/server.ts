@@ -13,7 +13,7 @@ const socketApi = require(path.join(process.cwd(), './.build/mock/socket.api')).
 const WebSocket = require('ws');
 
 // const op = require('op');
-const routeConfig = require(path.join(process.cwd(), './src/route/config'));
+const routeConfig = require(path.join(process.cwd(), './src/route/config.json'));
 
 interface KoaRouter {
     [keys: string]: any

@@ -1,0 +1,14 @@
+{
+    "first": {
+        "path": "/",
+        "src": "../pages/firstPage/index.ts"
+    },
+    "second": {
+        "path": "/secondPage",
+        "src": "../pages/secondPage/index.ts"
+    },
+    "third": {
+        "path": "/thirdPage",
+        "src": "../pages/thirdPage/index.ts"
+    }
+}

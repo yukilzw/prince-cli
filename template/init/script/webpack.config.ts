@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const webpackConfig: WebPackConfig = {
     entry: {
-        entry: path.join(process.cwd(), './src/entry.js')
+        entry: path.join(process.cwd(), './src/entry.tsx')
     },
     output: {
         path: path.join(process.cwd(), './dist'),
@@ -87,6 +87,18 @@ const webpackConfig: WebPackConfig = {
                 }
             },
             {
+                test: /\.(ts|tsx)$/,
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            configFile: path.resolve(process.cwd(), './tsconfig.json')
+                        }
+                    }
+                ],
+                exclude: /node_modules/
+            },
+            {
                 test: /\.(png|jpeg|jpg)$/,
                 loader: 'file-loader?name=img/[name]-[hash].[ext]'
             }
@@ -105,10 +117,10 @@ const webpackConfig: WebPackConfig = {
         }
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.json'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
         alias: {
             '@common': path.join(process.cwd(), './src/common'),
-            '@route': path.join(__dirname, './routeImage')
+            '@route': path.join(process.cwd(), './.build/script/routeImage')
         }
     },
     ...devtool,

@@ -1,9 +1,8 @@
-import 'core-js/es6/set';
-import 'core-js/es6/map';
-import 'core-js/es6/promise';
+
+import './interface';
 import 'fetch-polyfill';
-import React from 'react';
-import { render } from 'react-dom';
+import React = require('react');
+import ReactDOM = require('react-dom');
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import RouteElements from './route/router';
@@ -28,14 +27,14 @@ if (window.__REDUX_DEVTOOLS_EXTENSION__) {
     createStoreArguments[2] = compose(applyMiddleware(...middlewares), window.__REDUX_DEVTOOLS_EXTENSION__());
 }
 
-commonService.store = createStore(...createStoreArguments);
+commonService.store = createStore(todoApp, {}, createStoreArguments[2] as any);
 commonService.store.asyncReducers = reducers;
 
 if (module.hot) {
     // module.hot.accept();
 }
 
-render(
+ReactDOM.render(
     <RouteElements store={commonService.store} />,
     document.getElementsByTagName('main')[0]
 );

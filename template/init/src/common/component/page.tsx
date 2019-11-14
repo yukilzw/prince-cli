@@ -1,6 +1,6 @@
-import React from 'react';
+import React = require('react');
 
-class Page extends React.Component {
+class Page extends React.Component<IReactReadProps, {}> {
     render() {
         const { children, name } = this.props;
 

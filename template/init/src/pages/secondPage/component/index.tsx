@@ -1,4 +1,4 @@
-import React from 'react';
+import React = require('react');
 import { connect } from 'react-redux';
 import { commonService } from '@common/service';
 import { secondPageService } from '../service/secondPageService';
@@ -10,7 +10,7 @@ import './secondPage.less';
         count: state.count
     })
 )
-class SecondPage extends React.Component {
+class SecondPage extends React.Component<IReactReadProps> {
     goNextPage = () => {
         commonService.pageJump('push', {
             pathname: '/thirdPage'
