@@ -61,6 +61,7 @@ program
     .command('build')
     .description('build app bundles')
     .action(() => {
+        process.env.MODE = 'build';
         process.env.NODE_ENV = 'production';
         import('./compile');
     });

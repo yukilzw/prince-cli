@@ -207,6 +207,7 @@ if (isDebug) {
                 colors: true
             }));
             console.log('\x1B[32m[prince]\x1B[0m set bundle production!');
+            // process.exit(0);
         }
     });
 }

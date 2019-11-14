@@ -4,6 +4,7 @@ import { REMOTE, LOCAL } from './config';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 interface WebPackConfig {
     [key: string]: any
@@ -19,6 +20,8 @@ if (process.env.DEBUG === '1') {
         new webpack.NamedModulesPlugin()
     );
     isDebug = true;
+} else {
+    extraPlugins.push(new BundleAnalyzerPlugin());
 }
 
 let devtool = {};
