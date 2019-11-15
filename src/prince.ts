@@ -21,7 +21,7 @@ program
     .action(async (project: string) => {
         if (program.remote) {
             console.log(`Clone template from https://github.com/yukilzw/prince into file path : "${cwd}\\${project}\\" ...`);
-            const cloneProcess = childProcess.exec(`git clone https://github.com/yukilzw/prince .${project}/ --depth=1`);
+            const cloneProcess: childProcess.ChildProcess = childProcess.exec(`git clone https://github.com/yukilzw/prince .${project}/ --depth=1`);
 
             cloneProcess.on('exit', async () => {
                 console.log(`checking out init template from git...`);

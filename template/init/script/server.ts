@@ -18,9 +18,12 @@ const routeConfig = require(path.join(process.cwd(), './src/route/config.json'))
 interface KoaRouter {
     [keys: string]: any
 }
+interface ReqData {
+    callback: string;
+}
 
 const app = new Koa();
-const router: KoaRouter = new Router();
+const router = new Router();
 
 // create dynamic router for each page
 const creatRouterFile = () => {
@@ -28,7 +31,7 @@ const creatRouterFile = () => {
     const config = moduleNameList.map(moduleName => {
         const { path: location, src } = routeConfig[moduleName];
 
-        let code = `{ path: '${location}', modules:` +
+        const code = `{ path: '${location}', modules:` +
             `() => import(/* webpackChunkName: '${moduleName}' */ '${path.join(process.cwd(), './src/route', src).replace(/\\/g, '/')}')` +
         ` }`;
 
@@ -62,14 +65,14 @@ const portListen = () => {
         const method = k[0].toLowerCase();
         const rest = k[1];
         const timeout =  k[2] || 0;
-        let way = method;
+        let way: string = method;
 
         if (method === 'jsonp') {
             way = 'get';
         }
 
         router[way](rest, async (ctx: any) => {
-            let reqData;
+            let reqData: ReqData;
 
             await new Promise(resolve => {
                 setTimeout(resolve, timeout);
@@ -189,13 +192,13 @@ if (isDebug) {
     console.log(`\x1B[33m[prince]\x1B[0m dev server is starting at http://localhost:${LOCAL.devPort}`);
     portListen();
 } else {
-    let compiler = webpack(webpackConfig);
+    let compiler: webpack.Compiler = webpack(webpackConfig);
 
     compiler.run((err: object, stats: any) => {
         if (err || stats.hasErrors()) {
             console.log(stats.compilation.errors);
         } else {
-            let htmlTemplate = fs.readFileSync(path.join(process.cwd(), './dist/index.html'), 'utf-8');
+            let htmlTemplate: string = fs.readFileSync(path.join(process.cwd(), './dist/index.html'), 'utf-8');
             const re = new RegExp(REMOTE.api + '/static/prince', 'g');
 
             htmlTemplate = htmlTemplate.replace(re, `http://localhost:${LOCAL.devPort}`).replace(/_[0-9a-z]{5}\.js/g, '.js');
