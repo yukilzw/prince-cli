@@ -15,9 +15,6 @@ const WebSocket = require('ws');
 // const op = require('op');
 const routeConfig = require(path.join(process.cwd(), './src/route/config.json'));
 
-interface KoaRouter {
-    [keys: string]: any
-}
 interface ReqData {
     callback: string;
 }
