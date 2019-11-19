@@ -92,7 +92,7 @@ const portListen = () => {
     app.use(router.routes());
     app.listen(LOCAL.apiPort);
 
-    console.log(`\x1B[33m[prince]\x1B[0m mock api server is starting at ${LOCAL.api}`);
+    console.log(`\x1B[33m[prince]\x1B[0m mock RESTful.Server is starting at ${LOCAL.api}`);
 
     // webSocket server：LOCAL.socketPort
     const wss = new WebSocket.Server({ port: LOCAL.socketPort });
