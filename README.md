@@ -1,8 +1,6 @@
 # About prince
 ![license](https://img.shields.io/badge/license-MIT-green.svg) ![node](https://img.shields.io/badge/node-8.0%2B-brightgreen.svg)
 
-[中文文档](https://github.com/yukilzw/prince/blob/master/README-cn.md)
-
 fast & light React SPA mobile tooling.
 - connect Redux.
 - webpack-dev-server provides hot reload.
@@ -163,7 +161,3 @@ add turning animation liked native is based on react-router, `pageJump`is animat
 
 - common folder content page component actions, reducers, methods needed many times, use path like`@common/`in the code.
 - `debug`mode require that you shuold build server side bufore using it, then edit file script/config.js and`build` program. At last commit dist folder to server side.<br/>
-
-### Developer information
-Any questions or suggestions please send e-mail to me:
-334652479@qq.com
