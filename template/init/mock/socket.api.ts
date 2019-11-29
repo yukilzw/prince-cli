@@ -10,6 +10,6 @@ const socketApi: Map<Array<any>, SocketData> = new Map();
 * @param {object} response socket push data
 */
 socketApi.set(['timeout', 2500], socketData.wzl);
-socketApi.set(['interval', 1000 * 20], socketData.lzw);
+socketApi.set(['interval', 4000], socketData.lzw);
 
 export default socketApi;

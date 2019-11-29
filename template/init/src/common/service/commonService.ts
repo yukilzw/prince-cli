@@ -27,8 +27,24 @@ class CommonService {
         * @param {string} sign name
         * @param {function} callBack function
         */
-        subscribe(sign: string, callBack: Function) {
-            callBack && document.addEventListener(`onsocketmsg${sign}`, e => callBack(e.detail), false);
+        subscribe(sign: string, callBack: Function, instance?: object) {
+            this.unSubscribe(sign, callBack, instance);
+
+            const eventFunction = e => {
+                instance ? callBack.call(instance, e.detail) : callBack(e.delete);
+            };
+            const key = (instance ? instance.constructor.name : '') + sign + '::' + callBack.toString();
+
+            this.callBackRegister[key] = eventFunction;
+            document.addEventListener(`onsocketmsg${sign}`, eventFunction, false);
+        },
+        unSubscribe(sign: string, callBack: Function, instance?: object) {
+            const key = (instance ? instance.constructor.name : '') + sign + '::' + callBack.toString();
+
+            if (key in this.callBackRegister) {
+                document.removeEventListener(`onsocketmsg${sign}`, this.callBackRegister[key]);
+                delete this.callBackRegister[key];
+            }
         },
 
         /**
@@ -38,7 +54,7 @@ class CommonService {
         send(data: string|object) {
             this.sendMsgList.push(data);
         },
-
+        callBackRegister: {},
         sendMsgList: []
     };
     // global HOST: according to the file 'script/config.js' to init enviroment

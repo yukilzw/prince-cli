@@ -3,9 +3,6 @@ import { commonService } from '@common/service/commonService';
 
 class FirstPageService {
     constructor() {
-        commonService.ws.subscribe('lzw', data => {
-
-        });
         commonService.ws.subscribe('wzl', data => {
 
         });
