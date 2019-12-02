@@ -1,6 +1,6 @@
 /*eslint-disable*/
-import countReducer from './reducers/countReducer';
-import countAction, { COUNT_ADD, COUNT_MINUS } from './actions/countAction';
+import countReducer from '../reducers/countReducer';
+import countAction, { COUNT_ADD, COUNT_MINUS } from '../actions/countAction';
 
 test('count reducers', () => {
     expect(

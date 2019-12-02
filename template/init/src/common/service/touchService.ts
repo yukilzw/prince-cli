@@ -1,29 +1,33 @@
-import React, { Component } from 'react';
+import React = require('react');
 
-export class Touch extends Component {
-    constructor(props) {
-        super(props);
+interface Position {
+    x: number;
+    y: number;
+}
 
-        this.preV = { x: null, y: null };
-        this.pinchStartLen = null;
-        this.scale = 1;
-        this.isSingleTap = false;
-        this.isDoubleTap = false;
-        this.delta = null;
-        this.last = null;
-        this.now = null;
-        this.end = null;
-        this.multiTouch = false;
-        this.tapTimeout = null;
-        this.longTapTimeout = null;
-        this.singleTapTimeout = null;
-        this.swipeTimeout = null;
-        this.x1 = this.x2 = this.y1 = this.y2 = null;
-        this.preTapPosition = { x: null, y: null };
-        // Disable taps after longTap
-        this.afterLongTap = false;
-        this.afterLongTapTimeout = null;
-    }
+export class Touch extends React.Component<IReactReadProps> {
+    preV: Position = { x: null, y: null };
+    pinchStartLen: number = null;
+    scale: number = 1;
+    isSingleTap: boolean = false;
+    isDoubleTap: boolean = false;
+    delta: number = null;
+    last: number = null;
+    now: number = null;
+    end: number = null;
+    multiTouch: boolean = false;
+    tapTimeout: number = null;
+    longTapTimeout: number = null;
+    singleTapTimeout: number = null;
+    swipeTimeout: number = null;
+    x1: number = null;
+    x2: number = null;
+    y1: number = null;
+    y2: number = null;
+    preTapPosition: Position = { x: null, y: null };
+    // Disable taps after longTap
+    afterLongTap: boolean = false;
+    afterLongTapTimeout: number = null;
 
     getLen(v) {
         return Math.sqrt(v.x * v.x + v.y * v.y);
@@ -108,10 +112,10 @@ export class Touch extends Component {
         } else {
             this.isSingleTap = true;
         }
-        this.longTapTimeout = setTimeout(() => {
+        this.longTapTimeout = window.setTimeout(() => {
             this._emitEvent('onLongTap', evt);
             this.afterLongTap = true;
-            this.afterLongTapTimeout = setTimeout(() => {
+            this.afterLongTapTimeout = window.setTimeout(() => {
                 this.afterLongTap = false;
             }, 1000);
         }, 750);
@@ -188,7 +192,7 @@ export class Touch extends Component {
                 (this.y2 && Math.abs(this.y1 - this.y2) > 30)) {
                 evt.direction = this._swipeDirection(this.x1, this.x2, this.y1, this.y2);
                 evt.distance = Math.abs(this.x1 - this.x2);
-                this.swipeTimeout = setTimeout(() => {
+                this.swipeTimeout = window.setTimeout(() => {
                     this._emitEvent('onSwipe', evt);
                 }, 0);
             } else {
@@ -196,14 +200,14 @@ export class Touch extends Component {
                     clearTimeout(this.afterLongTapTimeout);
                     this.afterLongTap = false;
                 } else {
-                    this.tapTimeout = setTimeout(() => {
+                    this.tapTimeout = window.setTimeout(() => {
                         this._emitEvent('onTap', evt);
                         if (this.isDoubleTap) {
                             this._emitEvent('onDoubleTap', evt);
                             clearTimeout(this.singleTapTimeout);
                             this.isDoubleTap = false;
                         } else if (this.isSingleTap) {
-                            this.singleTapTimeout = setTimeout(() => {
+                            this.singleTapTimeout = window.setTimeout(() => {
                                 this._emitEvent('onSingleTap', evt);
                             }, 250);
                             this.isSingleTap = false;
@@ -239,7 +243,7 @@ export class Touch extends Component {
     }
 
     render() {
-        return React.cloneElement(React.Children.only(this.props.children), {
+        return React.cloneElement(React.Children.only(this.props.children as React.DetailedReactHTMLElement<any, HTMLElement>), {
             onTouchStart: this._handleTouchStart.bind(this),
             onTouchMove: this._handleTouchMove.bind(this),
             onTouchCancel: this._handleTouchCancel.bind(this),

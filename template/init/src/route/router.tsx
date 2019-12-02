@@ -10,7 +10,7 @@ const asyncLoader = loadComponent => (
         state = {
             LazyComponent: null
         }
-        componentWillMount() {
+        componentDidMount() {
             loadComponent().then(({ default: LazyComponent }) => {
                 this.setState({ LazyComponent });
             });

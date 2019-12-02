@@ -13,10 +13,8 @@ class FirstPage extends React.Component<IReactReadProps, FistPageState> {
     state = {
         num: 10
     };
-    componentWillMount() {
-        firstPageService.request();
-    }
     componentDidMount() {
+        firstPageService.request();
         commonService.ws.subscribe('lzw', this.subscribeData, this);
     }
     componentWillUnmount() {

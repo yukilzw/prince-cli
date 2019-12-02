@@ -1,11 +1,9 @@
 {
     "include": ["./mock", "./script"],
-    "exclude": ["node_modules", "src", "babel.config.js"],
     "compilerOptions": {
         "typeRoots": [
             "node_modules/@types"
         ],
-        "types": ["node"],
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
         "allowJs": true,
@@ -18,7 +16,7 @@
         "pretty": true,
         "strictFunctionTypes": false,
         "importHelpers": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "downlevelIteration": true
     }
 }

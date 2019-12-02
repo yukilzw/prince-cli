@@ -1,4 +1,4 @@
-import React from 'react';
+import React = require('react');
 import { connect } from 'react-redux';
 import { commonService } from '@common/service';
 import { Page } from '@common/component/page';
