@@ -13,7 +13,7 @@
         "target": "es5",
         "moduleResolution": "node",
         "lib": ["es2015"],
-        "sourceMap": false,
+        "sourceMap": true,
         "pretty": true,
         "strictFunctionTypes": false,
         "importHelpers": true,

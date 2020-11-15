@@ -1,3 +1,5 @@
 node_modules
 index.js
+index.js.map
 src/*.js
+src/*.js.map
