@@ -24,15 +24,25 @@ program
             const cloneProcess: childProcess.ChildProcess = childProcess.exec(`git clone https://github.com/yukilzw/prince .${project}/ --depth=1`);
 
             cloneProcess.on('exit', async () => {
-                console.log(`checking out init template from git...`);
+                console.log(`checking out template from git...`);
                 await fse.move(path.join(cwd, `./.${project}/template/init`), path.join(cwd, `./${project}`));
                 await fse.remove(path.join(cwd, `./.${project}`));
                 console.log('init successfully');
             });
         } else {
-            console.log(`checking out init template from local...`);
+            console.log(`checking out template from local...`);
             await fse.copy(path.join(__dirname, '../template/init'), path.join(cwd, `./${project}`));
-            console.log('init successfully');
+            console.log('package install...');
+            const subprocess = childProcess.spawn(`npm`, ['install'], {
+                cwd: path.join(cwd, `./${project}`)
+            });
+
+            // subprocess.stdout.on('data', (data) => {
+            //     console.log(`${data}`);
+            // });
+            subprocess.on('exit', () => {
+                console.log('init successfully');
+            });
         }
     });
 
