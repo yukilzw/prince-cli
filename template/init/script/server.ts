@@ -161,12 +161,12 @@ const portListen = () => {
 deleteFolderDist(path.join(process.cwd(), './dist'));
 creatRouterFile();
 if (isDebug) {
-    webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
+    // webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
     const options: WebpackDevServer.Configuration = {
         quiet: true,
         hot: true,
         inline: true,
-        host: 'localhost',
+        // host: 'localhost',
         port: LOCAL.devPort,
         stats: 'minimal',
         overlay: {
