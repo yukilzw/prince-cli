@@ -37,6 +37,6 @@
         "eslint-plugin-react": "^7.11.1"
     },
     "bin": {
-        "prince": "./.build/index.js"
+        "prince": "./index.js"
     }
 }
