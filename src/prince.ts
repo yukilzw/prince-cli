@@ -4,7 +4,7 @@ import childProcess = require('child_process');
 const fse = require('fs-extra');
 
 const addPages = require('./addPage');
-const packageConf = require('../package.json');
+const packageConf = require('../../package.json');
 
 const cwd = process.cwd();
 
@@ -31,7 +31,7 @@ program
             });
         } else {
             console.log(`checking out template from local...`);
-            await fse.copy(path.join(__dirname, '../template/init'), path.join(cwd, `./${project}`));
+            await fse.copy(path.join(__dirname, '../../template/init'), path.join(cwd, `./${project}`));
             console.log('package install...');
             const subprocess = childProcess.spawn(`npm`, ['install'], {
                 cwd: path.join(cwd, `./${project}`)

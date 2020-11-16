@@ -27,7 +27,7 @@ if (process.env.DEBUG === '1') {
 let devtool = {};
 
 if (isDebug) {
-    extraPlugins.push(new FriendlyErrorsWebpackPlugin());
+    // extraPlugins.push(new FriendlyErrorsWebpackPlugin());
     devtool = { devtool: 'cheap-module-eval-source-map' };
 }
 
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const webpackConfig: WebPackConfig = {
     entry: {
-        entry: path.join(process.cwd(), './src/entry.tsx')
+        entry: path.join(process.cwd(), './src/entry.jsx')
     },
     output: {
         path: path.join(process.cwd(), './dist'),
@@ -72,7 +72,7 @@ const webpackConfig: WebPackConfig = {
                 ]
             },
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: [path.join(process.cwd(), './node_modules/')],
                 loader: 'babel-loader',
                 options: {
@@ -123,7 +123,7 @@ const webpackConfig: WebPackConfig = {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
         alias: {
             '@common': path.join(process.cwd(), './src/common'),
-            '@route': path.join(process.cwd(), './.build/script/routeImage')
+            '@route': path.join(__dirname, '../routeImage')
         }
     },
     ...devtool,

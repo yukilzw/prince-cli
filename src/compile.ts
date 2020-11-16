@@ -2,6 +2,7 @@
  * compile typescript used node API.
  * run the result of javascript server file.
  */
+import fs = require('fs');
 import path = require('path');
 import ts = require('typescript');
 
@@ -12,7 +13,7 @@ const formatHost = {
 };
 
 const watchCompile = () => {
-    const configPath = ts.findConfigFile(process.cwd(), ts.sys.fileExists, 'tsconfig.dev-server.json');
+    const configPath = ts.findConfigFile(__dirname, ts.sys.fileExists, 'tsconfig.dev-server.json');
 
     if (!configPath) {
         throw new Error(`Could not find a valid 'tsconfig.dev-server.json'`);
@@ -48,7 +49,7 @@ const watchCompile = () => {
 
     ts.createWatchProgram(host);
 
-    import(path.join(process.cwd(), './.build/script/server'));
+    import(path.join(__dirname, './script/server'));
 };
 
 const reportDiagnostic = (diagnostic: any) => {
@@ -72,5 +73,30 @@ const reportWatchStatusChanged = (diagnostic: any) => {
         compileChange = true;
     }
 };
+
+const tp = `{
+    "include": ["${path.join(process.cwd(), './mock')}"],
+    "compilerOptions": {
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "allowJs": true,
+        "module": "commonjs",
+        "target": "es5",
+        "moduleResolution": "node",
+        "lib": ["es2015"],
+        "sourceMap": false,
+        "outDir": "${path.join(__dirname, './user_mock')}",
+        "pretty": true,
+        "strictFunctionTypes": false,
+        "importHelpers": true,
+        "noImplicitAny": false,
+        "downlevelIteration": true
+    }
+}`;
+
+fs.writeFileSync(path.join(__dirname, './tsconfig.dev-server.json'), tp);
 
 watchCompile();

@@ -8,8 +8,8 @@ import url = require('url');
 import fs = require('fs');
 import { webpackConfig, isDebug } from './webpack.config';
 import { REMOTE, LOCAL } from './config';
-const mockApi = require(path.join(process.cwd(), './.build/mock/mock.api')).default;
-const socketApi = require(path.join(process.cwd(), './.build/mock/socket.api')).default;
+const mockApi = require(path.join(__dirname, '../user_mock/mock.api.js')).default;
+const socketApi = require(path.join(__dirname, '../user_mock/socket.api.js')).default;
 const WebSocket = require('ws');
 
 // const op = require('op');
@@ -36,7 +36,7 @@ const creatRouterFile = () => {
     });
     const temp = 'export default [' + config.join(',') + '];';
 
-    fs.writeFileSync(path.join(__dirname, './routeImage.js'), temp);
+    fs.writeFileSync(path.join(__dirname, '../routeImage.js'), temp);
 };
 
 // clean path
@@ -162,30 +162,42 @@ deleteFolderDist(path.join(process.cwd(), './dist'));
 creatRouterFile();
 if (isDebug) {
     webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
+    // const options: WebpackDevServer.Configuration = {
+    //     quiet: true,
+    //     hot: true,
+    //     inline: true,
+    //     publicPath: webpackConfig.output.publicPath,
+    //     stats: 'minimal',
+    //     overlay: {
+    //         errors: true,
+    //         warnings: true
+    //     },
+    //     setup(app: any) {
+    //         app.use('*', (req: any, res: any, next: Function) => {
+    //             res.header('Access-Control-Allow-Origin', '*');
+    //             next();
+    //         });
+    //     }
+    // };
     const options: WebpackDevServer.Configuration = {
-        quiet: true,
-        hot: true,
-        inline: true,
-        host: 'localhost',
+        compress: false,
         port: LOCAL.devPort,
-        stats: 'minimal',
-        overlay: {
-            errors: true,
-            warnings: true
-        },
+        inline: true,
+        open: false,
+        hot: true,
         setup(app: any) {
             app.use('*', (req: any, res: any, next: Function) => {
                 res.header('Access-Control-Allow-Origin', '*');
                 next();
             });
         }
-    };
+    }
 
     WebpackDevServer.addDevServerEntrypoints(webpackConfig, options);
     const compiler = webpack(webpackConfig);
     const server = new WebpackDevServer(compiler, options);
 
-    server.listen(LOCAL.devPort);
+    // server.listen(LOCAL.devPort);
     console.log(`\x1B[33m[prince]\x1B[0m dev server is starting at http://localhost:${LOCAL.devPort}`);
     portListen();
 } else {
