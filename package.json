@@ -89,6 +89,6 @@
         "@types/ws": "^6.0.4"
     },
     "bin": {
-        "prince": "./.build/index.js"
+        "prince": "./build/index.js"
     }
 }

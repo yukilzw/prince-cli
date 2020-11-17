@@ -6,6 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const root = path.join(__dirname, '../../../');
+
 interface WebPackConfig {
     [key: string]: any
 }
@@ -27,7 +29,7 @@ if (process.env.DEBUG === '1') {
 let devtool = {};
 
 if (isDebug) {
-    // extraPlugins.push(new FriendlyErrorsWebpackPlugin());
+    extraPlugins.push(new FriendlyErrorsWebpackPlugin());
     devtool = { devtool: 'cheap-module-eval-source-map' };
 }
 
@@ -42,7 +44,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const webpackConfig: WebPackConfig = {
     entry: {
-        entry: path.join(process.cwd(), './src/entry.jsx')
+        entry: path.join(process.cwd(), './src/entry.tsx')
     },
     output: {
         path: path.join(process.cwd(), './dist'),
@@ -54,6 +56,7 @@ const webpackConfig: WebPackConfig = {
         rules: [
             {
                 test: /\.(css|less)$/,
+                exclude: /node_modules/,
                 use: [
                     /* !isDebug ? MiniCssExtractPlugin.loader : */'style-loader',
                     `css-loader?minimize=${!isDebug}`,
@@ -73,19 +76,19 @@ const webpackConfig: WebPackConfig = {
             },
             {
                 test: /\.(js|jsx)$/,
-                exclude: [path.join(process.cwd(), './node_modules/')],
+                exclude: /node_modules/,
                 loader: 'babel-loader',
                 options: {
                     presets: [
-                        ['@babel/preset-env', { modules: false }],
-                        '@babel/preset-react'
+                        [path.resolve(root, 'node_modules', '@babel/preset-env'), { modules: false }],
+                        path.resolve(root, 'node_modules', '@babel/preset-react')
                     ],
                     plugins: [
-                        ['@babel/plugin-proposal-decorators', { 'legacy': true }],
-                        '@babel/proposal-class-properties',
-                        '@babel/plugin-syntax-dynamic-import',
-                        '@babel/plugin-transform-object-assign',
-                        ['@babel/plugin-transform-runtime', { 'corejs': 2 }]
+                        [path.resolve(root, 'node_modules', '@babel/plugin-proposal-decorators'), { 'legacy': true }],
+                        path.resolve(root, 'node_modules', '@babel/plugin-proposal-class-properties'),
+                        path.resolve(root, 'node_modules', '@babel/plugin-syntax-dynamic-import'),
+                        path.resolve(root, 'node_modules', '@babel/plugin-transform-object-assign'),
+                        [path.resolve(root, 'node_modules', '@babel/plugin-transform-runtime'), { 'corejs': 2 }]
                     ]
                 }
             },
@@ -119,7 +122,16 @@ const webpackConfig: WebPackConfig = {
             }
         }
     },
+    resolveLoader: {
+        modules: [
+            path.resolve(root, 'node_modules')
+        ]
+    },
     resolve: {
+        modules: [
+            path.resolve(process.cwd(), 'node_modules'),
+            path.resolve(root, 'node_modules')
+        ],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
         alias: {
             '@common': path.join(process.cwd(), './src/common'),

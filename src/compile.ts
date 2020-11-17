@@ -12,7 +12,7 @@ const formatHost = {
     getNewLine: () => ts.sys.newLine
 };
 
-const watchCompile = () => {
+const watchCompile = (cb) => {
     const configPath = ts.findConfigFile(__dirname, ts.sys.fileExists, 'tsconfig.dev-server.json');
 
     if (!configPath) {
@@ -49,7 +49,7 @@ const watchCompile = () => {
 
     ts.createWatchProgram(host);
 
-    import(path.join(__dirname, './script/server'));
+    cb();
 };
 
 const reportDiagnostic = (diagnostic: any) => {
@@ -97,6 +97,10 @@ const tp = `{
     }
 }`;
 
-fs.writeFileSync(path.join(__dirname, './tsconfig.dev-server.json'), tp);
+const compiler = (cb) => {
+    fs.writeFileSync(path.join(__dirname, './tsconfig.dev-server.json'), tp);
 
-watchCompile();
+    watchCompile(cb);
+};
+
+export default compiler;

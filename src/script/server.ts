@@ -157,69 +157,61 @@ const portListen = () => {
     } */
 };
 
-// webpack start
-deleteFolderDist(path.join(process.cwd(), './dist'));
-creatRouterFile();
-if (isDebug) {
-    webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
-    // const options: WebpackDevServer.Configuration = {
-    //     quiet: true,
-    //     hot: true,
-    //     inline: true,
-    //     publicPath: webpackConfig.output.publicPath,
-    //     stats: 'minimal',
-    //     overlay: {
-    //         errors: true,
-    //         warnings: true
-    //     },
-    //     setup(app: any) {
-    //         app.use('*', (req: any, res: any, next: Function) => {
-    //             res.header('Access-Control-Allow-Origin', '*');
-    //             next();
-    //         });
-    //     }
-    // };
-    const options: WebpackDevServer.Configuration = {
-        compress: false,
-        port: LOCAL.devPort,
-        inline: true,
-        open: false,
-        hot: true,
-        setup(app: any) {
-            app.use('*', (req: any, res: any, next: Function) => {
-                res.header('Access-Control-Allow-Origin', '*');
-                next();
-            });
-        }
+const run = () => {
+    // webpack start
+    deleteFolderDist(path.join(process.cwd(), './dist'));
+    creatRouterFile();
+    if (isDebug) {
+        // webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
+        const options: WebpackDevServer.Configuration = {
+            quiet: true,
+            hot: true,
+            inline: true,
+            open: false,
+            port: LOCAL.devPort,
+            stats: 'minimal',
+            overlay: {
+                errors: true,
+                warnings: true
+            },
+            setup(app: any) {
+                app.use('*', (req: any, res: any, next: Function) => {
+                    res.header('Access-Control-Allow-Origin', '*');
+                    next();
+                });
+            }
+        };
+
+        WebpackDevServer.addDevServerEntrypoints(webpackConfig, options);
+        const compiler = webpack(webpackConfig);
+        const server = new WebpackDevServer(compiler, options);
+
+        server.listen(LOCAL.devPort);
+        console.log(`\x1B[33m[prince]\x1B[0m dev server is starting at http://localhost:${LOCAL.devPort}`);
+        portListen();
+    } else {
+        let compiler: webpack.Compiler = webpack(webpackConfig);
+
+        compiler.run((err: object, stats: any) => {
+            if (err || stats.hasErrors()) {
+                console.log(stats.compilation.errors);
+            } else {
+                let htmlTemplate: string = fs.readFileSync(path.join(process.cwd(), './dist/index.html'), 'utf-8');
+                const re = new RegExp(REMOTE.api + '/static/prince', 'g');
+
+                htmlTemplate = htmlTemplate.replace(re, `http://localhost:${LOCAL.devPort}`).replace(/_[0-9a-z]{5}\.js/g, '.js');
+
+                fs.writeFileSync(path.join(process.cwd(), './dist/prince-dev.html'), htmlTemplate);
+                fs.renameSync(path.join(process.cwd(), './dist/index.html'), path.join(process.cwd(), './dist/prince.html'));
+                console.log(stats.toString({
+                    chunks: false,
+                    colors: true
+                }));
+                console.log('\x1B[32m[prince]\x1B[0m set bundle production!');
+                // process.exit(0);
+            }
+        });
     }
+};
 
-    WebpackDevServer.addDevServerEntrypoints(webpackConfig, options);
-    const compiler = webpack(webpackConfig);
-    const server = new WebpackDevServer(compiler, options);
-
-    // server.listen(LOCAL.devPort);
-    console.log(`\x1B[33m[prince]\x1B[0m dev server is starting at http://localhost:${LOCAL.devPort}`);
-    portListen();
-} else {
-    let compiler: webpack.Compiler = webpack(webpackConfig);
-
-    compiler.run((err: object, stats: any) => {
-        if (err || stats.hasErrors()) {
-            console.log(stats.compilation.errors);
-        } else {
-            let htmlTemplate: string = fs.readFileSync(path.join(process.cwd(), './dist/index.html'), 'utf-8');
-            const re = new RegExp(REMOTE.api + '/static/prince', 'g');
-
-            htmlTemplate = htmlTemplate.replace(re, `http://localhost:${LOCAL.devPort}`).replace(/_[0-9a-z]{5}\.js/g, '.js');
-
-            fs.writeFileSync(path.join(process.cwd(), './dist/prince-dev.html'), htmlTemplate);
-            fs.renameSync(path.join(process.cwd(), './dist/index.html'), path.join(process.cwd(), './dist/prince.html'));
-            console.log(stats.toString({
-                chunks: false,
-                colors: true
-            }));
-            console.log('\x1B[32m[prince]\x1B[0m set bundle production!');
-            // process.exit(0);
-        }
-    });
-}
+export default run;

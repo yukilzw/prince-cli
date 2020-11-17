@@ -1,6 +1,7 @@
 import path = require('path');
 import program = require('commander');
 import childProcess = require('child_process');
+import compiler from './compile';
 const fse = require('fs-extra');
 
 const addPages = require('./addPage');
@@ -64,7 +65,9 @@ program
             process.env.DEBUG = '1';
             process.env.NODE_ENV = 'production';
         }
-        import('./compile');
+        const run = require('./script/server').default;
+
+        compiler(run);
     });
 
 program
