@@ -12,12 +12,9 @@ fast & light React SPA mobile tooling.
 ### Use command
 - use `npm install prince-cli -g` install prince-cli for global
 - use `prince new myApp` create new react SPA app from local template
-- use `prince new myApp -r` create new react SPA app from remote(github) template
-- cd to the pages path and use `prince add xxx` create a new page(xxx is your page name)
-- use `npm install` install packages
-- use `npm run dev:local` start local mode
-- use `npm run dev:debug` start debug mode
-- use `npm run build` create release bundle
+- use `prince dev` start local mode
+- use `prince build` create release bundle
+- use `prince add xxx` create a new page(xxx is your page name)
 - use `npm test` run unit testing
  
 ### Development rule
