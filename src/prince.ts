@@ -76,7 +76,9 @@ program
     .action(() => {
         process.env.MODE = 'build';
         process.env.NODE_ENV = 'production';
-        import('./compile');
+        const run = require('./script/server').default;
+
+        run();
     });
 
 program

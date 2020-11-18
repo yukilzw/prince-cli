@@ -1,5 +1,5 @@
-import React = require('react');
-import ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+import * as React from 'react';
+import { CSSTransitionGroup } from 'react-transition-group';
 import { HashRouter, Route } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import { commonService, Touch } from '@common/service';
@@ -41,14 +41,14 @@ class Main extends React.Component<IReactReadProps> {
 
                         return (
                             <Touch onSwipe={e => commonService.swipePage(e)}>
-                                <ReactCSSTransitionGroup
+                                <CSSTransitionGroup
                                     transitionName={this.props.routecss}
                                     transitionEnterTimeout={0}
                                     transitionLeaveTimeout={0} >
                                     <div className="route-translate-box" key={location.pathname}>
                                         {routeConfig.map(({ path, modules }) => <Route location={location} exact path={path} component={asyncLoader(modules)} key={path}/>)}
                                     </div>
-                                </ReactCSSTransitionGroup>
+                                </CSSTransitionGroup>
                             </Touch>
                         );
                     }}/>

@@ -129,7 +129,7 @@ const webpackConfig: WebPackConfig = {
     },
     resolve: {
         modules: [
-            path.resolve(process.cwd(), 'node_modules'),
+            'node_modules',
             path.resolve(root, 'node_modules')
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
