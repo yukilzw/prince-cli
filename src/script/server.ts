@@ -8,8 +8,8 @@ import url = require('url');
 import fs = require('fs');
 import { webpackConfig, isDebug } from './webpack.config';
 import { REMOTE, LOCAL } from './config';
-const mockApi = require(path.join(process.cwd(), './.build/mock/mock.api')).default;
-const socketApi = require(path.join(process.cwd(), './.build/mock/socket.api')).default;
+const mockApi = require(path.join(__dirname, '../user_mock/mock.api.js')).default;
+const socketApi = require(path.join(__dirname, '../user_mock/socket.api.js')).default;
 const WebSocket = require('ws');
 
 // const op = require('op');
@@ -36,7 +36,7 @@ const creatRouterFile = () => {
     });
     const temp = 'export default [' + config.join(',') + '];';
 
-    fs.writeFileSync(path.join(__dirname, './routeImage.js'), temp);
+    fs.writeFileSync(path.join(__dirname, '../routeImage.js'), temp);
 };
 
 // clean path
@@ -157,57 +157,61 @@ const portListen = () => {
     } */
 };
 
-// webpack start
-deleteFolderDist(path.join(process.cwd(), './dist'));
-creatRouterFile();
-if (isDebug) {
-    // webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
-    const options: WebpackDevServer.Configuration = {
-        quiet: true,
-        hot: true,
-        inline: true,
-        // host: 'localhost',
-        port: LOCAL.devPort,
-        stats: 'minimal',
-        overlay: {
-            errors: true,
-            warnings: true
-        },
-        setup(app: any) {
-            app.use('*', (req: any, res: any, next: Function) => {
-                res.header('Access-Control-Allow-Origin', '*');
-                next();
-            });
-        }
-    };
+const run = () => {
+    // webpack start
+    deleteFolderDist(path.join(process.cwd(), './dist'));
+    creatRouterFile();
+    if (isDebug) {
+        // webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
+        const options: WebpackDevServer.Configuration = {
+            quiet: true,
+            hot: true,
+            inline: true,
+            open: false,
+            port: LOCAL.devPort,
+            stats: 'minimal',
+            overlay: {
+                errors: true,
+                warnings: true
+            },
+            setup(app: any) {
+                app.use('*', (req: any, res: any, next: Function) => {
+                    res.header('Access-Control-Allow-Origin', '*');
+                    next();
+                });
+            }
+        };
 
-    WebpackDevServer.addDevServerEntrypoints(webpackConfig, options);
-    const compiler = webpack(webpackConfig);
-    const server = new WebpackDevServer(compiler, options);
+        WebpackDevServer.addDevServerEntrypoints(webpackConfig, options);
+        const compiler = webpack(webpackConfig);
+        const server = new WebpackDevServer(compiler, options);
 
-    server.listen(LOCAL.devPort);
-    console.log(`\x1B[33m[prince]\x1B[0m dev server is starting at http://localhost:${LOCAL.devPort}`);
-    portListen();
-} else {
-    let compiler: webpack.Compiler = webpack(webpackConfig);
+        server.listen(LOCAL.devPort);
+        console.log(`\x1B[33m[prince]\x1B[0m dev server is starting at http://localhost:${LOCAL.devPort}`);
+        portListen();
+    } else {
+        let compiler: webpack.Compiler = webpack(webpackConfig);
 
-    compiler.run((err: object, stats: any) => {
-        if (err || stats.hasErrors()) {
-            console.log(stats.compilation.errors);
-        } else {
-            let htmlTemplate: string = fs.readFileSync(path.join(process.cwd(), './dist/index.html'), 'utf-8');
-            const re = new RegExp(REMOTE.api + '/static/prince', 'g');
+        compiler.run((err: object, stats: any) => {
+            if (err || stats.hasErrors()) {
+                console.log(stats.compilation.errors);
+            } else {
+                let htmlTemplate: string = fs.readFileSync(path.join(process.cwd(), './dist/index.html'), 'utf-8');
+                const re = new RegExp(REMOTE.api + '/static/prince', 'g');
 
-            htmlTemplate = htmlTemplate.replace(re, `http://localhost:${LOCAL.devPort}`).replace(/_[0-9a-z]{5}\.js/g, '.js');
+                htmlTemplate = htmlTemplate.replace(re, `http://localhost:${LOCAL.devPort}`).replace(/_[0-9a-z]{5}\.js/g, '.js');
 
-            fs.writeFileSync(path.join(process.cwd(), './dist/prince-dev.html'), htmlTemplate);
-            fs.renameSync(path.join(process.cwd(), './dist/index.html'), path.join(process.cwd(), './dist/prince.html'));
-            console.log(stats.toString({
-                chunks: false,
-                colors: true
-            }));
-            console.log('\x1B[32m[prince]\x1B[0m set bundle production!');
-            // process.exit(0);
-        }
-    });
-}
+                fs.writeFileSync(path.join(process.cwd(), './dist/prince-dev.html'), htmlTemplate);
+                fs.renameSync(path.join(process.cwd(), './dist/index.html'), path.join(process.cwd(), './dist/prince.html'));
+                console.log(stats.toString({
+                    chunks: false,
+                    colors: true
+                }));
+                console.log('\x1B[32m[prince]\x1B[0m set bundle production!');
+                // process.exit(0);
+            }
+        });
+    }
+};
+
+export default run;

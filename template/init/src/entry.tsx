@@ -1,7 +1,6 @@
-
 import './interface';
 import 'fetch-polyfill';
-import React = require('react');
+import * as React from 'react';
 import ReactDOM = require('react-dom');
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -16,9 +15,8 @@ const middlewares = [thunkMiddleware, commonService.reducersStorage];
 const preloadedState = JSON.parse(localStorage.getItem('princeReducersData')) || {};
 
 if (DEBUG === 1) {
-    const { logger } = require('redux-logger');
-
-    middlewares.push(logger);
+    // const { logger } = require('redux-logger');
+    // middlewares.push(logger);
 }
 
 const createStoreArguments = [todoApp, {}/* {preloadedState} */, applyMiddleware(...middlewares)];

@@ -1,5 +1,5 @@
 {
-    "include": ["./*.ts", "./src/*.ts"],
+    "include": ["./*.ts", "./src/"],
     "exclude": ["node_modules"],
     "compilerOptions": {
         "typeRoots": [
@@ -11,13 +11,14 @@
         "allowJs": true,
         "module": "commonjs",
         "target": "es5",
+        "outDir": "./build/",
         "moduleResolution": "node",
         "lib": ["es2015"],
         "sourceMap": false,
         "pretty": true,
         "strictFunctionTypes": false,
         "importHelpers": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "downlevelIteration": true
     }
 }

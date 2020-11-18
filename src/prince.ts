@@ -1,10 +1,11 @@
 import path = require('path');
 import program = require('commander');
 import childProcess = require('child_process');
+import compiler from './compile';
 const fse = require('fs-extra');
 
 const addPages = require('./addPage');
-const packageConf = require('../package.json');
+const packageConf = require('../../package.json');
 
 const cwd = process.cwd();
 
@@ -24,15 +25,25 @@ program
             const cloneProcess: childProcess.ChildProcess = childProcess.exec(`git clone https://github.com/yukilzw/prince .${project}/ --depth=1`);
 
             cloneProcess.on('exit', async () => {
-                console.log(`checking out init template from git...`);
+                console.log(`checking out template from git...`);
                 await fse.move(path.join(cwd, `./.${project}/template/init`), path.join(cwd, `./${project}`));
                 await fse.remove(path.join(cwd, `./.${project}`));
                 console.log('init successfully');
             });
         } else {
-            console.log(`checking out init template from local...`);
-            await fse.copy(path.join(__dirname, '../template/init'), path.join(cwd, `./${project}`));
-            console.log('init successfully');
+            console.log(`checking out template from local...`);
+            await fse.copy(path.join(__dirname, '../../template/init'), path.join(cwd, `./${project}`));
+            console.log('package install...');
+            const subprocess = childProcess.spawn(`npm`, ['install'], {
+                cwd: path.join(cwd, `./${project}`)
+            });
+
+            // subprocess.stdout.on('data', (data) => {
+            //     console.log(`${data}`);
+            // });
+            subprocess.on('exit', () => {
+                console.log('init successfully');
+            });
         }
     });
 
@@ -54,7 +65,9 @@ program
             process.env.DEBUG = '1';
             process.env.NODE_ENV = 'production';
         }
-        import('./compile');
+        const run = require('./script/server').default;
+
+        compiler(run);
     });
 
 program
@@ -63,7 +76,9 @@ program
     .action(() => {
         process.env.MODE = 'build';
         process.env.NODE_ENV = 'production';
-        import('./compile');
+        const run = require('./script/server').default;
+
+        run();
     });
 
 program
