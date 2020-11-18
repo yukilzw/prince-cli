@@ -57,7 +57,7 @@ program
 program
     .command('dev <mode>')
     .description('start develop mode')
-    .action((mode: string) => {
+    .action(async (mode: string) => {
         if (mode === 'local') {
             process.env.DEBUG = '1';
             process.env.NODE_ENV = 'development';
@@ -65,9 +65,8 @@ program
             process.env.DEBUG = '1';
             process.env.NODE_ENV = 'production';
         }
-        const run = require('./script/server').default;
-
-        compiler(run);
+        await compiler();
+        require('./script/server').default();
     });
 
 program
@@ -76,9 +75,7 @@ program
     .action(() => {
         process.env.MODE = 'build';
         process.env.NODE_ENV = 'production';
-        const run = require('./script/server').default;
-
-        run();
+        require('./script/server').default();
     });
 
 program

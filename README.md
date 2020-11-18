@@ -10,9 +10,9 @@ fast & light React SPA mobile tooling.
 - support get、post、jsonp、webSocket mock function, support requesting localhost in the debug mode.
 
 ### Use command
-- use `npm install prince-cli -g` install prince-cli for global
+- use `npm i prince-cli -g` install prince-cli for global
 - use `prince new myApp` create new react SPA app from local template
-- use `prince dev` start local mode
+- use `prince dev local` start local mode
 - use `prince build` create release bundle
 - use `prince add xxx` create a new page(xxx is your page name)
 - use `npm test` run unit testing
