@@ -17,9 +17,6 @@ interface HttpConfig {
 class CommonService {
     store                  // global store
     router                 // global router
-    currentLoation: string         // current url storage
-    pageTurning: boolean
-    pageDirect: number
     // webSocket object (if you don't need webSocket,you can delete 'ws' property)
     ws = {
         /**
@@ -71,32 +68,11 @@ class CommonService {
 
     constructor() {
         this.setPixel();
-        this.listenTurn();
         this.connectWebSocket();
     }
     // set app rem
     setPixel() {
         document.documentElement.style.fontSize = (document.documentElement.clientWidth / 750) * 100 + 'px';
-    }
-    // subscribe page turning direction, set turning animation reducer for router
-    listenTurn() {
-        window.addEventListener('popstate', (e) => {
-            if (this.pageTurning) {
-                window.history.pushState(null, null, this.currentLoation);
-
-                return;
-            }
-            this.pageTurning = true;
-            setTimeout(() => {
-                this.pageTurning = false;
-            }, 350);
-            if (this.pageDirect) {
-                this.store.dispatch(commonActions.pageGo());
-            } else {
-                this.store.dispatch(commonActions.pageBack());
-            }
-            this.currentLoation = window.location.href;
-        }, false);
     }
     // connect webSocket server: subscribe, push. (if you don't need webSocket,you can delete 'connectWebSocket' method)
     connectWebSocket() {
@@ -136,38 +112,13 @@ class CommonService {
     }
     // signal turning
     swipePage(e) {
-        if (e.direction === 'Left') {
-            this.pageJump('go', 1);
-        } else {
-            this.pageBack('go', -1);
+        if (e.direction === 'Right') {
+            this.router.history.go(-1);
         }
     }
 
     /* ------------------Nexts are exposed services function for page modules------------------ */
 
-    /**
-    * @description page jump
-    */
-    pageBack(method, option) {
-        if (this.pageTurning) {
-            return;
-        }
-        const { history } = this.router;
-
-        history[method](option);
-    }
-    pageJump(method, option) {
-        if (this.pageTurning) {
-            return;
-        }
-        const { history } = this.router;
-
-        this.pageDirect = 1;
-        setTimeout(() => {
-            this.pageDirect = 0;
-        }, 300);
-        history[method](option);
-    }
     /**
     * @description json to query
     * @param {object} obj json object

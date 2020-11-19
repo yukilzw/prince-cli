@@ -11,15 +11,14 @@
         "autoprefixer": "~9.5.0",
         "fetch-jsonp": "^1.1.3",
         "fetch-polyfill": "^0.8.2",
-        "iscroll": "^5.2.0",
         "react": "^16.12.0",
-        "react-transition-group": "^1.2.0",
         "react-dom": "^16.12.0",
         "react-redux": "^5.1.2",
         "react-router-dom": "^5.2.0",
         "redux": "^4.0.4",
         "redux-logger": "^3.0.6",
-        "redux-thunk": "^2.3.0"
+        "redux-thunk": "^2.3.0",
+        "react-transition-group": "^4.4.1"
     },
     "devDependencies": {
         "eslint": "^5.9.0",

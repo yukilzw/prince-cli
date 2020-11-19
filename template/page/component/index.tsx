@@ -1,19 +1,14 @@
-import React = require('react');
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { Page } from '@common/component/page';
-import './secondPage.less';
+import './index.less';
 
-@connect(
-    state => state
-)
-class {{PN}} extends React.Component<IReactReadProps> {
-    render() {
-        return (
-            <Page name="{{PN}}">
-                <header>{{PN}}</header>
-            </Page>
-        );
-    }
-}
+const {{PN}}: React.FC<IReactReadProps> = () => {
+    return (
+        <Page name="{{PN}}">
+            <header>{{PN}}</header>
+        </Page>
+    );
+};
 
 export default {{PN}};

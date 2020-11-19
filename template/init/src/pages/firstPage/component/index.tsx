@@ -5,7 +5,7 @@ import { commonService } from '@common/service';
 import { Page } from '@common/component/page';
 import './firstPage.less';
 
-const FirstPage: React.FC<IReactReadProps> = () => {
+const FirstPage: React.FC<IReactReadProps> = ({ history }) => {
     const [num, setNum] = useState<number>(10);
 
     const subscribeData = (data) => {
@@ -22,7 +22,7 @@ const FirstPage: React.FC<IReactReadProps> = () => {
     }, []);
 
     const goNextPage = () => {
-        commonService.pageJump('push', {
+        history.push({
             pathname: '/secondPage'
         });
 

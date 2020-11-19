@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
-import { HashRouter, Route } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import { commonService, Touch } from '@common/service';
 import routeConfig from '@route';
 
-const asyncLoader = loadComponent => (
+const asyncLoader = (history, loadComponent) => (
     class AsyncLoader extends React.Component {
         state = {
             LazyComponent: null
@@ -18,10 +18,15 @@ const asyncLoader = loadComponent => (
         render() {
             const { LazyComponent } = this.state;
 
-            return LazyComponent ? <LazyComponent /> : null;
+            return LazyComponent ? <LazyComponent history={history} /> : null;
         }
     }
 );
+
+const ANIMATION = {
+    PUSH: 'go',
+    POP: 'back'
+};
 
 @connect(
     state => ({
@@ -33,27 +38,42 @@ class Main extends React.Component<IReactReadProps> {
         const { store } = this.props;
 
         return (
-            <HashRouter hashType="noslash">
+            <BrowserRouter>
                 <Provider store={store}>
                     <Route render={router => {
                         commonService.router = router;
-                        const { location } = router;
+                        const { location, history } = router;
 
                         return (
                             <Touch onSwipe={e => commonService.swipePage(e)}>
-                                <CSSTransitionGroup
-                                    transitionName={this.props.routecss}
-                                    transitionEnterTimeout={0}
-                                    transitionLeaveTimeout={0} >
-                                    <div className="route-translate-box" key={location.pathname}>
-                                        {routeConfig.map(({ path, modules }) => <Route location={location} exact path={path} component={asyncLoader(modules)} key={path}/>)}
-                                    </div>
-                                </CSSTransitionGroup>
+                                <TransitionGroup
+                                    className={'router-wrapper'}
+                                    childFactory={child => React.cloneElement(
+                                      child,
+                                      {classNames: ANIMATION[history.action]}
+                                    )}
+                                >
+                                    <CSSTransition
+                                        key={location.key}
+                                        timeout={300}
+                                    >
+                                        <div className="route-translate-box" key={location.pathname}>
+                                            <Switch location={location}>
+                                                {routeConfig.map(({ path, modules }) => <Route
+                                                    location={location}
+                                                    exact path={path}
+                                                    component={asyncLoader(history, modules)}
+                                                    key={path}
+                                                />)}
+                                            </Switch>
+                                        </div>
+                                    </CSSTransition>
+                                </TransitionGroup>
                             </Touch>
                         );
                     }}/>
                 </Provider>
-            </HashRouter>
+            </BrowserRouter>
         );
     }
 }

@@ -90,15 +90,6 @@ header {
     transform: translateZ(0);
 }
 
-/*iscroll*/
-.scroll-wrapper {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    bottom: 0;
-    overflow: hidden;
-}
-
 /*ReactCSSTransitionGroup动画帧*/
 /*router-go*/
 .go-enter {
@@ -111,21 +102,21 @@ header {
     transition: .3s;
 }
 
-.go-leave {
+.go-exit {
     transform: translate3d(0,0,0);
 }
 
-.go-leave .route-shade {
+.go-exit .route-shade {
     display: block;
     opacity: .05;
 }
 
-.go-leave.go-leave-active {
+.go-exit.go-exit-active {
     transform: translate3d(-50%,0,0);
     transition: .3s;
 }
 
-.go-leave.go-leave-active .route-shade{
+.go-exit.go-exit-active .route-shade{
     display: block;
     opacity: .5;
     transition: .3s;
@@ -142,21 +133,21 @@ header {
     transition: .3s;
 }
 
-.back-leave {
+.back-exit {
     transform: translate3d(0,0,0);
 }
 
-.back-leave .route-shade {
+.back-exit .route-shade {
     display: block;
     opacity: .05;
 }
 
-.back-leave.back-leave-active {
+.back-exit.back-exit-active {
     transform: translate3d(50%,0,0);
     transition: .3s;
 }
 
-.back-leave.back-leave-active .route-shade {
+.back-exit.back-exit-active .route-shade {
     display: block;
     opacity: .5;
     transition: .3s;

@@ -51,7 +51,7 @@ program
     .command('add <project>')
     .description('add new page template into current path')
     .action((project: string) => {
-        addPages(path.join(__dirname, '../template/page'), cwd + `/${project}`, project);
+        addPages(path.join(__dirname, '../../template/page'), cwd + `/${project}`, project);
     });
 
 program

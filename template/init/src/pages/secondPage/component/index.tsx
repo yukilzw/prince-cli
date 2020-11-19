@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { commonService } from '@common/service';
 import { secondPageService } from '../service/secondPageService';
 import { Page } from '@common/component/page';
 import './secondPage.less';
 
-const SecondPage: React.FC<IReactReadProps> = ({ count }) => {
+const SecondPage: React.FC<IReactReadProps> = ({ count, history }) => {
     const goNextPage = () => {
-        commonService.pageJump('push', {
+        history.push({
             pathname: '/thirdPage'
         });
     };
     const goBeforePage = () => {
-        commonService.pageBack('go', -1);
+        history.go(-1);
     };
     const minus = () => {
         secondPageService.minus();

@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { commonService } from '@common/service';
 import { Page } from '@common/component/page';
 import './thirdPage.less';
 
-const ThirdPage: React.FC<IReactReadProps> = () => {
+const ThirdPage: React.FC<IReactReadProps> = ({ history }) => {
     const goBeforePage = () => {
-        commonService.pageBack('go', -1);
+        history.go(-1);
     };
 
     return <Page name="thirdPage">
