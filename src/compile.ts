@@ -34,7 +34,7 @@ const watchCompile = (res) => {
 
     host.createProgram = (rootNames, options, host, oldProgram) => {
         if (process.env.MODE !== 'build') {
-            console.log(`start creat develop environment`);
+            // console.log(`start creat develop environment`);
         }
         return origCreateProgram(rootNames, options, host, oldProgram);
     };
@@ -42,7 +42,7 @@ const watchCompile = (res) => {
 
     host.afterProgramCreate = (program) => {
         if (process.env.MODE !== 'build') {
-            console.log('compile typescript server successfully');
+            // console.log('compile typescript server successfully');
         }
         origPostProgramCreate(program);
     };

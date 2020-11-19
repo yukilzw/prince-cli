@@ -1,6 +1,7 @@
 import path = require('path');
 import webpack = require('webpack');
 import { REMOTE, LOCAL } from './config';
+const WebpackBar = require('webpackbar');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
@@ -19,7 +20,6 @@ let isDebug = false;
 if (process.env.DEBUG === '1') {
     extraPlugins.push(
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin()
     );
     isDebug = true;
 } else {
@@ -29,8 +29,8 @@ if (process.env.DEBUG === '1') {
 let devtool = {};
 
 if (isDebug) {
-    extraPlugins.push(new FriendlyErrorsWebpackPlugin());
-    devtool = { devtool: 'cheap-module-eval-source-map' };
+    // extraPlugins.push(new FriendlyErrorsWebpackPlugin());
+    devtool = { devtool: 'eval-cheap-module-source-map' };
 }
 
 let publicPath;
@@ -106,7 +106,10 @@ const webpackConfig: WebPackConfig = {
             },
             {
                 test: /\.(png|jpeg|jpg)$/,
-                loader: 'file-loader?name=img/[name]-[hash].[ext]'
+                loader: 'file-loader',
+                options: {
+                    name: 'img/[name]-[hash].[ext]'
+                }
             }
         ]
     },
@@ -141,6 +144,9 @@ const webpackConfig: WebPackConfig = {
     ...devtool,
     stats: 'minimal',
     plugins: [
+        new WebpackBar({
+            name: 'prince'
+        }),
         new webpack.DefinePlugin({
             MOCK_PATH: `"${LOCAL.api}"`,
             DEBUG: process.env.DEBUG,

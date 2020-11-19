@@ -59,7 +59,7 @@ const copy = (src: string, dst: string) => {
                             const result: string = filterTemp(files, { PN });
 
                             fs.writeFile(rDist, result, 'utf8', () => {
-                                console.log('\x1B[32m[prince]\x1B[0m file---%s', rDist);
+                                console.log('\x1B[32m[prince-copy]\x1B[0m file---%s', rDist);
                             });
                         });
                     });
@@ -77,10 +77,10 @@ const addPage = (src: string, dst: string, project?: string) => {
     }
     fs.exists(dst, (exists) => {
         if (exists) {
-            console.log('\x1B[31m[prince]\x1B[0m page \'%s\' is exist!', project);
+            console.log('\x1B[31m[prince-error]\x1B[0m page \'%s\' is exist!', project);
         } else {
             fs.mkdir(dst, () => {
-                console.log('\x1B[32m[prince]\x1B[0m dir---%s', dst);
+                console.log('\x1B[32m[prince-copy]\x1B[0m dir---%s', dst);
                 copy(src, dst);
             });
         }

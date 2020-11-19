@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Provider, connect } from 'react-redux';
 import { commonService, Touch } from '@common/service';
 import routeConfig from '@route';
@@ -38,7 +38,7 @@ class Main extends React.Component<IReactReadProps> {
         const { store } = this.props;
 
         return (
-            <BrowserRouter>
+            <HashRouter hashType="noslash">
                 <Provider store={store}>
                     <Route render={router => {
                         commonService.router = router;
@@ -47,14 +47,12 @@ class Main extends React.Component<IReactReadProps> {
                         return (
                             <Touch onSwipe={e => commonService.swipePage(e)}>
                                 <TransitionGroup
-                                    className={'router-wrapper'}
-                                    childFactory={child => React.cloneElement(
-                                      child,
-                                      {classNames: ANIMATION[history.action]}
-                                    )}
+                                    childFactory={child => React.cloneElement(child, {
+                                        classNames: ANIMATION[history.action]
+                                    })}
                                 >
                                     <CSSTransition
-                                        key={location.key}
+                                        key={location.pathname}
                                         timeout={300}
                                     >
                                         <div className="route-translate-box" key={location.pathname}>
@@ -73,7 +71,7 @@ class Main extends React.Component<IReactReadProps> {
                         );
                     }}/>
                 </Provider>
-            </BrowserRouter>
+            </HashRouter>
         );
     }
 }

@@ -85,14 +85,14 @@ const portListen = () => {
                 reqData = ctx.request.query;
                 ctx.body = `${ reqData.callback }(${ JSON.stringify(value) })`;
             }
-            console.log(`\x1B[33m[prince]\x1B[0m ${ method.toUpperCase() } request: ${ ctx.request.path }`);
+            console.log(`\x1B[32m[prince-mock]\x1B[0m ${ method.toUpperCase() } request: ${ ctx.request.path }`);
         });
     }
     app.use(bodyParser());
     app.use(router.routes());
     app.listen(LOCAL.apiPort);
 
-    console.log(`\x1B[33m[prince]\x1B[0m mock RESTful.Server is starting at ${LOCAL.api}`);
+    // console.log(`\x1B[32m[prince]\x1B[0m mock RESTful.Server is starting at ${LOCAL.api}`);
 
     // webSocket server：LOCAL.socketPort
     const wss = new WebSocket.Server({ port: LOCAL.socketPort });
@@ -105,7 +105,7 @@ const portListen = () => {
         });
     };
     wss.on('connection', (ws: any, req: any) => {
-        console.log(`\x1B[33m[prince]\x1B[0m new client has connected webSocket.Server`);
+        // console.log(`\x1B[32m[prince]\x1B[0m new client has connected webSocket.Server`);
         const query = url.parse(req.url, true).query;
 
         ws.timerArr = [];
@@ -118,7 +118,7 @@ const portListen = () => {
                     const data = JSON.stringify(value);
 
                     wss.broadcast(data, ws);
-                    console.log(`\x1B[33m[prince]\x1B[0m WebSocket send msg: ${ value.sign || 'undefined sign' }`);
+                    console.log(`\x1B[32m[prince-mock]\x1B[0m WebSocket send msg: ${ value.sign || 'undefined sign' }`);
                 }, k[1]);
             } else if (k[0] === 'interval') {
                 ws.timerArr.push(
@@ -126,7 +126,7 @@ const portListen = () => {
                         const data = JSON.stringify(value);
 
                         wss.broadcast(data, ws);
-                        console.log(`\x1B[33m[prince]\x1B[0m WebSocket send msg: ${ value.sign || 'undefined sign' }`);
+                        console.log(`\x1B[32m[prince-mock]\x1B[0m WebSocket send msg: ${ value.sign || 'undefined sign' }`);
                     }, k[1])
                 );
             }
@@ -134,22 +134,22 @@ const portListen = () => {
 
         ws.on('message', (message: string | object) => {
             if (typeof message === 'string') {
-                console.log(`\x1B[33m[prince]\x1B[0m webSocket on msg: ${ message }`);
+                console.log(`\x1B[32m[prince-mock]\x1B[0m webSocket on msg: ${ message }`);
             } else if (typeof message === 'object') {
-                console.log('\x1B[33m[prince]\x1B[0m webSocket msg is binary');
+                console.log('\x1B[32m[prince-mock]\x1B[0m webSocket msg is binary');
             }
         });
         ws.on('close', () => {
             ws.timerArr.forEach((timer: any) => clearInterval(timer));
             delete ws.timerArr;
-            console.log(`\x1B[33m[prince]\x1B[0m webSocket closed`);
+            // console.log(`\x1B[32m[prince]\x1B[0m webSocket closed`);
         });
         ws.on('error', (err: object) => {
-            console.log(`\x1B[31m[prince]\x1B[0m ${err}`);
+            console.log(`\x1B[31m[prince-error]\x1B[0m ${err}`);
         });
     });
 
-    console.log(`\x1B[33m[prince]\x1B[0m mock WebSocket.Server is starting at ${LOCAL.socket}`);
+    // console.log(`\x1B[32m[prince]\x1B[0m mock WebSocket.Server is starting at ${LOCAL.socket}`);
     console.log('');
 
     /* if (process.env.NODE_ENV === 'development') {
@@ -164,7 +164,7 @@ const run = () => {
     if (isDebug) {
         // webpackConfig.entry['dev-server'] = `webpack-dev-server/client?http://localhost:${LOCAL.devPort}`;
         const options: WebpackDevServer.Configuration = {
-            quiet: true,
+            quiet: false,
             hot: true,
             inline: true,
             open: false,
@@ -174,7 +174,7 @@ const run = () => {
                 errors: true,
                 warnings: true
             },
-            setup(app: any) {
+            before(app: any) {
                 app.use('*', (req: any, res: any, next: Function) => {
                     res.header('Access-Control-Allow-Origin', '*');
                     next();
@@ -187,7 +187,7 @@ const run = () => {
         const server = new WebpackDevServer(compiler, options);
 
         server.listen(LOCAL.devPort);
-        console.log(`\x1B[33m[prince]\x1B[0m dev server is starting at http://localhost:${LOCAL.devPort}`);
+        // console.log(`\x1B[32m[prince]\x1B[0m dev server is starting at http://localhost:${LOCAL.devPort}`);
         portListen();
     } else {
         let compiler: webpack.Compiler = webpack(webpackConfig);
