@@ -18,17 +18,12 @@ fast & light React SPA mobile tooling.
 - use `npm test` run unit testing
  
 ### Development rule
-    ########### myApp formation ###########
     ├── mock
     │   ├── mock.api.js         // http mock
     │   ├── socket.api.js       // websocket mock
     │   └── data
     │       ├── mockData.js     // rest mock data
     │       └── socketData.js   // websocket mock data
-    ├── script
-    │   ├── config.js           // environment host config
-    │   ├── webpack.config.js   // webpack config
-    │   └── server.js           // local server
     ├── src
     │   ├── common                  // common function
     │   │   ├── action              // actions
